@@ -5,7 +5,12 @@ export type ProjectCategory =
 
 export type ProjectStatusTone = "live" | "pending" | "development" | "offline";
 
-export type ProjectStatus = {
+export type ProjectCompletion = {
+  label: "Completed" | "In development";
+  detail: string;
+};
+
+export type ProjectDemo = {
   label: string;
   tone: ProjectStatusTone;
   detail: string;
@@ -54,7 +59,8 @@ export type Project = {
   index: string;
   title: string;
   category: ProjectCategory;
-  status: ProjectStatus;
+  completion: ProjectCompletion;
+  demo: ProjectDemo;
   timeline: string;
   role: string;
   shortDescription: string;
@@ -81,15 +87,20 @@ export type Project = {
   screenshots: { src: string; alt: string }[];
 };
 
-export const projects: Project[] = [
+const projectData: Project[] = [
   {
     id: "rag-document-qa",
     slug: "rag-doc-qa",
-    index: "01",
+    index: "03",
     title: "RAG Document Q&A",
     category: "Applied AI",
-    status: {
-      label: "Deployment pending",
+    completion: {
+      label: "Completed",
+      detail:
+        "The local application is complete end to end: ingestion, retrieval, citations, safeguards and evaluation.",
+    },
+    demo: {
+      label: "Demo pending",
       tone: "pending",
       detail:
         "Runs fully locally with Ollama. No public deployment has been tested yet.",
@@ -275,10 +286,15 @@ export const projects: Project[] = [
   {
     id: "nexustrade-pro",
     slug: "nexustrade-pro",
-    index: "02",
+    index: "01",
     title: "NexusTrade Pro",
     category: "Financial Technology",
-    status: {
+    completion: {
+      label: "Completed",
+      detail:
+        "The full-stack build is finished and running in paper-trading mode.",
+    },
+    demo: {
       label: "Live · paper trading",
       tone: "live",
       detail:
@@ -372,7 +388,7 @@ export const projects: Project[] = [
     evaluation: {
       title: "Verification",
       intro:
-        "The public deployment was checked directly. No accounts were created and no orders were placed during verification.",
+        "The public deployment was checked directly on 21 November 2026. No accounts were created and no orders were placed during verification.",
       metrics: [
         { label: "Frontend", value: "200 OK" },
         { label: "Backend API", value: "200 OK" },
@@ -428,14 +444,19 @@ export const projects: Project[] = [
   {
     id: "jobfit-ai",
     slug: "jobfit-ai",
-    index: "03",
+    index: "02",
     title: "JobFit AI",
     category: "Applied AI",
-    status: {
-      label: "Deployed · API offline",
-      tone: "offline",
+    completion: {
+      label: "Completed",
       detail:
-        "The Next.js frontend is live. The FastAPI analysis service was unreachable at the last check, so end-to-end analysis is not currently available.",
+        "The frontend, analysis API and weighted scoring flow are implemented.",
+    },
+    demo: {
+      label: "Deployed · sign-in required",
+      tone: "pending",
+      detail:
+        "Frontend and API are online. Analysis requires a Supabase account, so anonymous end-to-end scoring was not verified.",
     },
     timeline: "2026",
     role: "Independent project — NLP and full-stack engineering",
@@ -516,19 +537,20 @@ export const projects: Project[] = [
     evaluation: {
       title: "Verification",
       intro:
-        "The deployment was checked directly at the time of this update.",
+        "The deployment was checked directly on 21 November 2026. No account was created.",
       metrics: [
         { label: "Frontend", value: "200 OK" },
-        { label: "Analysis API", value: "Unreachable" },
+        { label: "Analysis API", value: "Online · auth" },
         { label: "Scoring weights", value: "40 / 40 / 20" },
       ],
       notes: [
         "The Next.js frontend responded successfully.",
-        "The FastAPI backend timed out repeatedly and was therefore treated as offline.",
+        "The FastAPI service responded on /health, /docs and /openapi.json.",
+        "/api/analyze returned 401 without a session; analysis requires sign-in, so the scoring flow was not executed anonymously.",
         "The ATS component is a heuristic readiness check, not an official applicant tracking system score.",
       ],
       caveat:
-        "Because the analysis service was offline, a fresh end-to-end resume analysis could not be executed during verification.",
+        "End-to-end scoring was not verified anonymously because the analysis endpoint requires authentication.",
     },
     diagram: {
       title: "Analysis flow",
@@ -557,7 +579,7 @@ export const projects: Project[] = [
       live: "https://jobfit-ai-steel.vercel.app",
       liveLabel: "Open live frontend",
       liveNote:
-        "Frontend is live; the analysis API was offline at the last check, so scoring will not complete.",
+        "Frontend and API are online. Analysis requires sign-in, so anonymous end-to-end scoring was not verified.",
     },
     featured: true,
     caseStudyLabel: "Read case study",
@@ -569,11 +591,16 @@ export const projects: Project[] = [
     index: "04",
     title: "MarginPilot",
     category: "Product Engineering",
-    status: {
+    completion: {
       label: "In development",
+      detail:
+        "Milestones M0–M3 are implemented; the reconciliation engine is the next milestone.",
+    },
+    demo: {
+      label: "Private build",
       tone: "development",
       detail:
-        "Private repository. Milestones M0–M3 are implemented; M4 is the next planned milestone.",
+        "Private repository. There is no public demo or published source.",
     },
     timeline: "2026 — present",
     role: "Founder & engineer — product, architecture and implementation",
@@ -720,6 +747,10 @@ export const projects: Project[] = [
     screenshots: [],
   },
 ];
+
+export const projects: Project[] = [...projectData].sort(
+  (a, b) => Number(a.index) - Number(b.index),
+);
 
 export const projectCategories: Array<"All" | ProjectCategory> = [
   "All",

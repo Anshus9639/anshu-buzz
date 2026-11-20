@@ -36,7 +36,7 @@ All copy and data are centralised — no hardcoded personal content in component
 | File | Controls |
 | --- | --- |
 | `src/data/profile.ts` | Name, brand, email, availability, statement, social links, disciplines |
-| `src/data/projects.ts` | Four flagship projects: categories, status, timeline, stack, case-study sections, evaluation, milestones, deployment plan, links |
+| `src/data/projects.ts` | Four flagship projects: categories, completion, demo availability, timeline, stack, case-study sections, evaluation, milestones, deployment plan, links |
 | `src/data/additional-projects.ts` | Additional work / experiments (Recipe Intelligence Chatbot, Legal Document Analysis) |
 | `src/data/skills.ts` | Five expertise categories |
 | `src/data/experience.ts` | Codolog internship timeline |
@@ -47,9 +47,15 @@ All copy and data are centralised — no hardcoded personal content in component
 
 - The public UI intentionally excludes the personal mobile number. It remains
   only in the downloadable PDF resume.
-- Every project status reflects an actual check: RAG has no public deployment
-  (`demoPending`), JobFit's API was unreachable at the last verification, and
-  MarginPilot's repository is private. Links are only rendered from data.
+- Completion and demo availability are separate fields. Current state:
+  NexusTrade Pro is completed with a live paper-trading demo; JobFit AI is
+  completed and deployed, but analysis requires a Supabase sign-in, so
+  anonymous end-to-end scoring was not verified; RAG Document Q&A is a
+  completed local application with public deployment pending; MarginPilot is
+  in development with a private build.
+- Flagship order is defined by the `index` field: NexusTrade Pro, JobFit AI,
+  RAG Document Q&A, MarginPilot. Next-case links follow the same order.
+- Links are only rendered from data. No fabricated demo or repository URLs.
 - Codolog is listed as a Software Developer Intern (Feb–Jun 2026), not full-time.
 - Projects are milestones, not employment. No scores, certifications or
   responsibilities are invented.
@@ -79,25 +85,28 @@ menu, command palette, contact section and footer.
 - **Security headers** (`X-Content-Type-Options`, `X-Frame-Options`,
   `Referrer-Policy`, `Permissions-Policy`) are set in `next.config.ts`.
 
-## Validation (measured 2026-11-18, V1.2)
+## Validation (measured 2026-11-21, V1.2 stable baseline)
 
 Production build (`npm run build`) served with `npx next start -p 3100`.
 Lighthouse, Chrome headless, mobile simulation unless noted.
 
 | Page | Performance | Accessibility | Best Practices | SEO |
 | --- | --- | --- | --- | --- |
-| `/` | 97 | 100 | 100 | 100 |
-| `/projects/rag-doc-qa` | 99 | 100 | 100 | 100 |
+| `/` | 96 | 100 | 100 | 100 |
+| `/projects/jobfit-ai` | 100 | 100 | 100 | 100 |
 | `/resume` | 99 | 100 | 100 | 100 |
 | `/` (desktop preset) | 100 | 100 | 100 | 100 |
 
-Home page metrics (mobile): LCP 0.9 s, TBT 190 ms, CLS 0.
+Home page metrics (mobile): LCP 0.9 s, TBT 210 ms, CLS 0.
 
 Additional checks executed:
 
 - `npm run build`, `npm run lint`, `npx tsc --noEmit` — clean.
-- axe-core (WCAG 2.1 A/AA + best practice) on home, all four project pages,
-  resume and the 404 route — 0 violations.
+- axe-core (WCAG 2.1 A/AA + best practice) on home, all four project pages and
+  resume — 0 violations.
+- Flagship order confirmed: NexusTrade Pro, JobFit AI, RAG Document Q&A,
+  MarginPilot. Next-case chain: 01 → 02 → 03 → 04 → 01.
+- Completion and demo labels confirmed on cards and case-study sidebars.
 - Work filter: 04 → 02 (Applied AI) → 01 (Product Engineering) → 01
   (Financial Technology), mouse and keyboard.
 - Command palette: Ctrl/Cmd+K opens, filters, Enter navigates, Esc closes;
@@ -111,6 +120,9 @@ Additional checks executed:
   dates, Codolog internship, LinkedIn — no phone number.
 - `Anshu-Saini-Resume.pdf` served as `application/pdf` (143,663 bytes) with
   `download` attributes.
+- External links verified 2026-11-21: NexusTrade frontend and backend respond;
+  JobFit frontend responds, API `/health` and `/docs` respond, `/api/analyze`
+  returns 401 without a session; RAG repository responds 200.
 
 Scores vary by run and machine; rerun Lighthouse yourself to confirm.
 
@@ -124,7 +136,8 @@ environment you eventually publish.
 Two project links are external deployments that were verified during the audit:
 
 - NexusTrade Pro — `https://trading-algo-oa9r.vercel.app` (live, paper trading only)
-- JobFit AI — `https://jobfit-ai-steel.vercel.app` (frontend live; API offline at last check)
+- JobFit AI — `https://jobfit-ai-steel.vercel.app` (frontend and API online;
+  analysis requires sign-in)
 
 ## Deploy to Vercel
 

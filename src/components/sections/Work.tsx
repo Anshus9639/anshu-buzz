@@ -45,7 +45,7 @@ export function Work() {
           label="Selected work"
           title="Selected work."
           titleId="work-title"
-          description="Four systems built end to end — retrieval-grounded AI, a paper-trading platform, an NLP product and a financial product in development."
+          description="Four systems built end to end — a paper-trading platform, an NLP product, retrieval-grounded AI and a financial product in development."
         />
 
         <div className="mt-12 flex flex-wrap items-center justify-between gap-5 border-b border-hairline pb-5">

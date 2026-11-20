@@ -236,10 +236,10 @@ export function ProjectDetail({ project }: { project: Project }) {
                 <span className="flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-ash">
                   <span
                     className="status-dot"
-                    data-tone={project.status.tone}
+                    data-tone={project.demo.tone}
                     aria-hidden="true"
                   />
-                  {project.status.label}
+                  {project.demo.label}
                 </span>
               </div>
 
@@ -300,18 +300,29 @@ export function ProjectDetail({ project }: { project: Project }) {
                   </dd>
                 </div>
                 <div className="grid grid-cols-[6rem_1fr] gap-4 border-b border-hairline py-4">
-                  <dt className="mono-micro text-ash">Status</dt>
+                  <dt className="mono-micro text-ash">Completion</dt>
+                  <dd>
+                    <span className="text-xs text-chalk">
+                      {project.completion.label}
+                    </span>
+                    <p className="mt-2 text-xs leading-relaxed text-ash">
+                      {project.completion.detail}
+                    </p>
+                  </dd>
+                </div>
+                <div className="grid grid-cols-[6rem_1fr] gap-4 border-b border-hairline py-4">
+                  <dt className="mono-micro text-ash">Demo</dt>
                   <dd>
                     <span className="flex items-center gap-2 text-xs text-chalk">
                       <span
                         className="status-dot"
-                        data-tone={project.status.tone}
+                        data-tone={project.demo.tone}
                         aria-hidden="true"
                       />
-                      {project.status.label}
+                      {project.demo.label}
                     </span>
                     <p className="mt-2 text-xs leading-relaxed text-ash">
-                      {project.status.detail}
+                      {project.demo.detail}
                     </p>
                   </dd>
                 </div>

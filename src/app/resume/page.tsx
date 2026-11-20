@@ -97,7 +97,7 @@ export default function ResumePage() {
                     {project.title}
                   </h3>
                   <span className="mono-micro text-ash">
-                    {project.timeline} / {project.status.label}
+                    {project.timeline} / {project.completion.label}
                   </span>
                 </div>
                 <p className="mt-1.5 max-w-3xl text-sm leading-relaxed text-ash">

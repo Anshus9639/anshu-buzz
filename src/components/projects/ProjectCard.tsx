@@ -53,10 +53,10 @@ export function ProjectCard({
             <span className="mono-micro flex items-center gap-2 text-right text-ash">
               <span
                 className="status-dot"
-                data-tone={project.status.tone}
+                data-tone={project.demo.tone}
                 aria-hidden="true"
               />
-              {project.status.label}
+              {project.demo.label}
             </span>
           </div>
           <span
@@ -70,7 +70,7 @@ export function ProjectCard({
         <div className="mt-5">
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
             <span className="mono-micro text-ash">
-              {project.index} / {project.category}
+              {project.index} / {project.category} · {project.completion.label}
             </span>
             <span className="mono-micro text-ash">{project.timeline}</span>
           </div>
