@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, GitBranch, Radio } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, GitBranch, Play, Radio } from "lucide-react";
 import type {
   Project,
   ProjectDiagram,
@@ -8,6 +8,7 @@ import type {
   ProjectMilestone,
 } from "@/data/projects";
 import { getNextProject } from "@/data/projects";
+import { ProductWalkthrough } from "@/components/projects/ProductWalkthrough";
 import { ProjectVisual } from "@/components/projects/ProjectVisual";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { Reveal } from "@/components/animations/Reveal";
@@ -251,15 +252,31 @@ export function ProjectDetail({ project }: { project: Project }) {
                 {project.shortDescription}
               </p>
 
-              {hasLinks ? (
+              {(hasLinks || project.walkthrough) ? (
                 <div className="mt-8 flex flex-wrap items-center gap-3">
+                  {project.walkthrough ? (
+                    <ButtonLink
+                      href="#walkthrough"
+                      variant="solid"
+                      showIcon={false}
+                      leadingIcon={
+                        <Play
+                          aria-hidden="true"
+                          className="size-3.5"
+                          strokeWidth={1.5}
+                        />
+                      }
+                    >
+                      Watch product walkthrough
+                    </ButtonLink>
+                  ) : null}
                   {project.links.github ? (
                     <ButtonLink
                       href={project.links.github}
                       external
-                      variant="solid"
+                      variant={project.walkthrough ? "outline" : "solid"}
                     >
-                      Repository
+                      {project.links.sourceLabel ?? "Repository"}
                     </ButtonLink>
                   ) : null}
                   {project.links.live ? (
@@ -360,7 +377,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                               className="size-3"
                               strokeWidth={1.5}
                             />
-                            GitHub
+                            {project.links.sourceLabel ?? "GitHub"}
                           </a>
                         ) : null}
                         {project.links.live ? (
@@ -396,16 +413,22 @@ export function ProjectDetail({ project }: { project: Project }) {
         </div>
       </header>
 
-      <div className="container-edge py-8 lg:py-12">
-        <div className="aspect-[4/3] border border-hairline sm:aspect-[16/9]">
-          <ProjectVisual project={project} sizes="detail" />
+      {project.walkthrough ? (
+        <div className="container-edge py-8 lg:py-12">
+          <ProductWalkthrough project={project} />
         </div>
-        <p className="mono-micro mt-3 text-ash">
-          {project.screenshots.length > 0
-            ? "Interface / project imagery"
-            : "Project study — visual direction"}
-        </p>
-      </div>
+      ) : (
+        <div className="container-edge py-8 lg:py-12">
+          <div className="aspect-[4/3] border border-hairline sm:aspect-[16/9]">
+            <ProjectVisual project={project} sizes="detail" />
+          </div>
+          <p className="mono-micro mt-3 text-ash">
+            {project.screenshots.length > 0
+              ? "Interface / project imagery"
+              : "Project study — visual direction"}
+          </p>
+        </div>
+      )}
 
       <div className="container-edge">
         <div className="grid gap-12 border-t border-hairline py-12 lg:grid-cols-12 lg:gap-8 lg:py-16">

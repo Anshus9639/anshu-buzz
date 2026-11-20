@@ -10,6 +10,7 @@ type ButtonLinkProps = {
   className?: string;
   external?: boolean;
   showIcon?: boolean;
+  leadingIcon?: ReactNode;
 };
 
 const variants = {
@@ -26,6 +27,7 @@ export function ButtonLink({
   className,
   external = false,
   showIcon = true,
+  leadingIcon,
 }: ButtonLinkProps) {
   const classes = cn(
     "group/button inline-flex min-h-12 items-center justify-center gap-3 rounded-full px-6 py-3 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-300",
@@ -35,6 +37,7 @@ export function ButtonLink({
 
   const content = (
     <>
+      {leadingIcon}
       <span>{children}</span>
       {showIcon ? (
         <ArrowUpRight

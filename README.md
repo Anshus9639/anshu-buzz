@@ -36,7 +36,7 @@ All copy and data are centralised — no hardcoded personal content in component
 | File | Controls |
 | --- | --- |
 | `src/data/profile.ts` | Name, brand, email, availability, statement, social links, disciplines |
-| `src/data/projects.ts` | Four flagship projects: categories, completion, demo availability, timeline, stack, case-study sections, evaluation, milestones, deployment plan, links |
+| `src/data/projects.ts` | Four flagship projects: categories, completion, demo availability, timeline, stack, case-study sections, evaluation, milestones, deployment plan, walkthrough media, links |
 | `src/data/additional-projects.ts` | Additional work / experiments (Recipe Intelligence Chatbot, Legal Document Analysis) |
 | `src/data/skills.ts` | Five expertise categories |
 | `src/data/experience.ts` | Codolog internship timeline |
@@ -56,6 +56,10 @@ All copy and data are centralised — no hardcoded personal content in component
 - Flagship order is defined by the `index` field: NexusTrade Pro, JobFit AI,
   RAG Document Q&A, MarginPilot. Next-case links follow the same order.
 - Links are only rendered from data. No fabricated demo or repository URLs.
+- NexusTrade Pro's walkthrough uses `public/videos/nexustrade-walkthrough.mp4`
+  with `public/images/nexustrade-preview.webp` as its poster. The player is
+  `preload="none"` with native controls and only downloads the video after the
+  user starts playback.
 - Codolog is listed as a Software Developer Intern (Feb–Jun 2026), not full-time.
 - Projects are milestones, not employment. No scores, certifications or
   responsibilities are invented.
@@ -123,6 +127,10 @@ Additional checks executed:
 - External links verified 2026-11-21: NexusTrade frontend and backend respond;
   JobFit frontend responds, API `/health` and `/docs` respond, `/api/analyze`
   returns 401 without a session; RAG repository responds 200.
+- NexusTrade walkthrough assets return 200 (`video/mp4`, `image/webp`; byte
+  ranges supported). No video request is made before playback, and playback
+  advances normally. The "Watch product walkthrough" CTA scrolls to the player.
+  The homepage loads no video or poster assets.
 
 Scores vary by run and machine; rerun Lighthouse yourself to confirm.
 

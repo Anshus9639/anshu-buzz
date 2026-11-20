@@ -119,7 +119,7 @@ export function ProjectCard({
               className="group/repo inline-flex min-h-8 items-center gap-2 font-mono text-[9px] uppercase tracking-[0.14em] text-ash transition-colors hover:text-chalk"
             >
               <GitBranch aria-hidden="true" className="size-3" strokeWidth={1.5} />
-              Repository
+              {project.links.sourceLabel ?? "Repository"}
               <ArrowUpRight
                 aria-hidden="true"
                 className="size-3 transition-transform duration-300 group-hover/repo:-translate-y-0.5 group-hover/repo:translate-x-0.5"
