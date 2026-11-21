@@ -21,11 +21,11 @@ export const experience: ExperienceEntry[] = [
     location: "Mumbai, India",
     type: "Internship",
     summary:
-      "A six-month software development internship focused on Python backend services and data-driven application workflows.",
+      "A software development internship focused on Python backend services and data-driven application workflows.",
     points: [
-      "Developed RESTful APIs with Python, FastAPI and PostgreSQL to process, store and serve Learning Management System (LMS) data.",
-      "Built Flask and React application workflows connecting backend services to data-driven features.",
-      "Worked on structured-data processing for visualization.",
+      "Developed RESTful APIs using Python, FastAPI and PostgreSQL for LMS data.",
+      "Built Flask and React application workflows connecting backend services.",
+      "Worked on structured-data processing and visualization.",
     ],
   },
   {

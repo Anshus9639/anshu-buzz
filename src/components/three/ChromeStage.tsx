@@ -172,11 +172,6 @@ export function ChromeStage() {
           </StageBoundary>
         ) : null}
       </div>
-
-      <div className="absolute inset-x-0 bottom-0 flex items-end justify-between px-1 font-mono text-[8px] uppercase tracking-[0.18em] text-ash">
-        <span>Fig. 01 — Chrome study</span>
-        <span>{status === "fallback" ? "Still" : "WebGL"}</span>
-      </div>
     </div>
   );
 }

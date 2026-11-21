@@ -9,15 +9,14 @@ export type NavItem = {
   label: string;
   href: string;
   id: SectionId;
-  index: string;
 };
 
 export const navItems: NavItem[] = [
-  { label: "Work", href: "/#work", id: "work", index: "01" },
-  { label: "About", href: "/#about", id: "about", index: "02" },
-  { label: "Expertise", href: "/#expertise", id: "expertise", index: "03" },
-  { label: "Experience", href: "/#experience", id: "experience", index: "04" },
-  { label: "Contact", href: "/#contact", id: "contact", index: "05" },
+  { label: "Work", href: "/#work", id: "work" },
+  { label: "About", href: "/#about", id: "about" },
+  { label: "Expertise", href: "/#expertise", id: "expertise" },
+  { label: "Experience", href: "/#experience", id: "experience" },
+  { label: "Contact", href: "/#contact", id: "contact" },
 ];
 
 export const sectionIds = navItems.map((item) => item.id);

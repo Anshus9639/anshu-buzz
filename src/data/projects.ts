@@ -35,6 +35,18 @@ export type ProjectWalkthrough = {
   note: string;
 };
 
+export type ProjectLivePreview = {
+  url: string;
+  poster: string;
+  label: string;
+  note: string;
+};
+
+export type ProjectPreviewMeta = {
+  label: string;
+  note: string;
+};
+
 export type ProjectEvaluation = {
   title?: string;
   intro: string;
@@ -92,6 +104,8 @@ export type Project = {
   diagram?: ProjectDiagram;
   deployment?: ProjectDeployment;
   walkthrough?: ProjectWalkthrough;
+  livePreview?: ProjectLivePreview;
+  preview?: ProjectPreviewMeta;
   links: ProjectLinks;
   featured: boolean;
   caseStudyLabel: string;
@@ -111,7 +125,7 @@ const projectData: Project[] = [
         "The local application is complete end to end: ingestion, retrieval, citations, safeguards and evaluation.",
     },
     demo: {
-      label: "Demo pending",
+      label: "Local build · demo pending",
       tone: "pending",
       detail:
         "Runs fully locally with Ollama. No public deployment has been tested yet.",
@@ -285,10 +299,14 @@ const projectData: Project[] = [
         "Run the evaluation harness against the deployed instance before changing the status to live.",
       ],
     },
+    preview: {
+      label: "Architecture study",
+      note:
+        "An architecture study of the retrieval and citation pipeline. The application runs locally; there is no public interface to preview.",
+    },
     links: {
       github: "https://github.com/Anshus9639/rag-doc-qa-bot",
       demoPending: true,
-      liveNote: "Local-only build — public demo pending.",
     },
     featured: true,
     caseStudyLabel: "Read case study",
@@ -457,7 +475,7 @@ const projectData: Project[] = [
       live: "https://trading-algo-oa9r.vercel.app",
       liveLabel: "Open live application",
       liveNote:
-        "Paper trading only — simulated balances, no real orders or brokerage credentials.",
+        "Simulated balances — no real orders or brokerage credentials.",
     },
     featured: true,
     caseStudyLabel: "Open case study",
@@ -475,7 +493,7 @@ const projectData: Project[] = [
         "The frontend, analysis API and weighted scoring flow are implemented.",
     },
     demo: {
-      label: "Deployed · sign-in required",
+      label: "Deployed · public homepage",
       tone: "pending",
       detail:
         "Frontend and API are online. Analysis requires a Supabase account, so anonymous end-to-end scoring was not verified.",
@@ -597,11 +615,16 @@ const projectData: Project[] = [
       caption:
         "Each signal is computed separately and returned with the final score so the candidate can see where the result comes from.",
     },
+    livePreview: {
+      url: "https://jobfit-ai-steel.vercel.app",
+      poster: "/images/jobfit-homepage.webp",
+      label: "Live homepage preview",
+      note: "Resume analysis requires sign-in.",
+    },
     links: {
       live: "https://jobfit-ai-steel.vercel.app",
       liveLabel: "Open live frontend",
-      liveNote:
-        "Frontend and API are online. Analysis requires sign-in, so anonymous end-to-end scoring was not verified.",
+      liveNote: "Resume analysis requires sign-in.",
     },
     featured: true,
     caseStudyLabel: "Read case study",
@@ -760,6 +783,11 @@ const projectData: Project[] = [
           "Billing, onboarding and operational tooling. Defined on the roadmap, not built.",
       },
     ],
+    preview: {
+      label: "Designed preview · in development",
+      note:
+        "An interface study based on the documented MarginPilot implementation. It is not a live build, and the reconciliation engine is still in development.",
+    },
     links: {
       sourceNote:
         "Private repository — the source is not published and there is no public build to try.",

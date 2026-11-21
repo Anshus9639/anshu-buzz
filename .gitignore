@@ -42,3 +42,6 @@ next-env.d.ts
 
 # audit artifacts
 /.audit-v12/
+/.audit-v13/
+/.audit-v14/
+/.audit-v15/

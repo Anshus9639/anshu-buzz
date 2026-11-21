@@ -13,9 +13,6 @@ export function Footer() {
         <div className="grid gap-10 py-14 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Availability />
-            <p className="mt-5 max-w-xs text-sm leading-relaxed text-ash">
-              {profile.position}
-            </p>
           </div>
 
           <nav aria-label="Footer" className="md:col-span-3 md:col-start-7">
@@ -100,9 +97,6 @@ export function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-hairline py-6">
           <p className="mono-micro text-ash">
             © {year} {profile.brand}. All rights reserved.
-          </p>
-          <p className="mono-micro text-ash">
-            Designed & built from scratch.
           </p>
           <a
             href="#top"

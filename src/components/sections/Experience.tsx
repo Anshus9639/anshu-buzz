@@ -2,49 +2,28 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Reveal } from "@/components/animations/Reveal";
-import { ButtonLink } from "@/components/ui/ButtonLink";
 import { education } from "@/data/education";
 import { experience } from "@/data/experience";
+
+const professionalExperience = experience.filter(
+  (entry) => entry.type === "Internship",
+);
 
 export function Experience() {
   return (
     <section
       id="experience"
       aria-labelledby="experience-title"
-      className="section-pad defer-section border-t border-hairline"
+      className="section-pad border-t border-hairline"
     >
       <div className="container-edge">
-        <SectionHeading
-          index="04"
-          label="Experience"
-          title="A record of building."
-          titleId="experience-title"
-          description="An internship, independent AI projects and the education behind them. Project entries are milestones, not employment."
-        />
+        <SectionHeading title="Experience." titleId="experience-title" />
 
-        <div className="mt-14 grid gap-12 lg:grid-cols-12 lg:gap-8">
-          <aside className="lg:col-span-3">
-            <div className="lg:sticky lg:top-28">
-              <p className="mono-micro text-ash">Selected milestones</p>
-              <p className="mt-4 max-w-[24ch] text-sm leading-relaxed text-ash">
-                A short record of current work. More detail is available in
-                the resume.
-              </p>
-              <ButtonLink
-                href="/resume"
-                variant="outline"
-                className="mt-6"
-              >
-                View resume
-              </ButtonLink>
-            </div>
-          </aside>
-
-          <ol className="lg:col-span-9">
-            {experience.map((entry, index) => (
+        <ol className="mt-14 border-t border-hairline">
+            {professionalExperience.map((entry, index) => (
               <li
                 key={`${entry.organisation}-${entry.role}`}
-                className="grid gap-4 border-t border-hairline py-9 md:grid-cols-[7.5rem_1fr] md:gap-8"
+                className="grid gap-4 border-b border-hairline py-9 md:grid-cols-[7.5rem_1fr] md:gap-8"
               >
                 <div>
                   <p className="mono-label text-ash">{entry.period}</p>
@@ -62,11 +41,7 @@ export function Experience() {
                       </span>
                     </div>
 
-                    <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ash">
-                      {entry.summary}
-                    </p>
-
-                    <ul className="mt-4 grid gap-2 sm:grid-cols-2">
+                    <ul className="mt-4 grid max-w-3xl gap-2 sm:grid-cols-2">
                       {entry.points.map((point) => (
                         <li
                           key={point}
@@ -116,7 +91,6 @@ export function Experience() {
               </li>
             ))}
           </ol>
-        </div>
 
         {education.length > 0 ? (
           <div className="mt-10 grid gap-6 border-t border-hairline pt-8 lg:grid-cols-12">

@@ -7,7 +7,6 @@ import { SiteHeader } from "@/components/navigation/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { RevealObserver } from "@/components/animations/RevealObserver";
-import { PointerGlow } from "@/components/animations/PointerGlow";
 
 const display = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -90,7 +89,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#080808",
+  themeColor: "#050505",
   colorScheme: "dark",
 };
 
@@ -143,7 +142,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 
         <ScrollProgress />
         <RevealObserver />
-        <PointerGlow />
         <SiteHeader />
         <main id="main" tabIndex={-1}>
           {children}

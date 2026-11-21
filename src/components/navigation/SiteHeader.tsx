@@ -4,7 +4,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { Menu, Search } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { navItems, sectionIds } from "@/lib/navigation";
 import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
@@ -34,6 +34,24 @@ export function SiteHeader() {
   const [paletteOpen, setPaletteOpen] = useState(false);
   const [paletteSession, setPaletteSession] = useState(0);
   const activeSection = useActiveSection(sectionIds, isHome);
+  const headerRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const updateOffset = () => {
+      document.documentElement.style.setProperty(
+        "--header-offset",
+        `${header.getBoundingClientRect().height + 24}px`,
+      );
+    };
+
+    updateOffset();
+    const observer = new ResizeObserver(updateOffset);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     function handleScroll() {
@@ -87,6 +105,7 @@ export function SiteHeader() {
   return (
     <>
       <header
+        ref={headerRef}
         className={cn(
           "site-header fixed inset-x-0 top-0 z-50 border-b transition-[background-color,border-color] duration-500",
           scrolled

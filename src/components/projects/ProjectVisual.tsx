@@ -299,10 +299,24 @@ function JobFitArt({ slug }: { slug: string }) {
 }
 
 function MarginPilotArt({ slug }: { slug: string }) {
-  const bars = [44, 86, 62, 128, 96, 150, 74, 116, 58];
-  const points = bars
-    .map((height, index) => `${188 + index * 54},${414 - height * 0.72}`)
-    .join(" ");
+  const nav = [
+    { label: "Overview", y: 160 },
+    { label: "Transactions", y: 192 },
+    { label: "Payouts", y: 224 },
+    { label: "Reconciliation", y: 256, tag: "M4" },
+    { label: "Audit log", y: 288, active: true },
+  ];
+  const controls = [
+    ["RLS · NON-OWNER ROLE", 156],
+    ["CAPABILITY FUNCTIONS", 178],
+    ["DECIMAL MONEY", 200],
+    ["CSRF · RATE LIMIT", 222],
+  ] as const;
+  const auditRows = [
+    ["capability.check", "tenant.scope", 408],
+    ["ledger.write", "audit.append", 436],
+    ["session.guard", "rls.enforced", 464],
+  ] as const;
 
   return (
     <svg
@@ -313,89 +327,286 @@ function MarginPilotArt({ slug }: { slug: string }) {
       role="presentation"
     >
       <defs>
-        <linearGradient id={`${slug}-line`} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0" stopColor="#f4f4f4" stopOpacity="0.15" />
-          <stop offset="0.5" stopColor="#f4f4f4" stopOpacity="0.95" />
-          <stop offset="1" stopColor="#f4f4f4" stopOpacity="0.2" />
-        </linearGradient>
-        <linearGradient id={`${slug}-bar`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#f4f4f4" stopOpacity="0.45" />
-          <stop offset="1" stopColor="#f4f4f4" stopOpacity="0.08" />
-        </linearGradient>
+        <radialGradient id={`${slug}-glow`} cx="0.5" cy="0.5" r="0.5">
+          <stop offset="0" stopColor="#ffffff" stopOpacity="0.07" />
+          <stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+        </radialGradient>
       </defs>
 
       <rect width="800" height="600" fill="#101010" />
+      <circle cx="650" cy="140" r="240" fill={`url(#${slug}-glow)`} />
 
-      <g stroke="#2f2f2f" strokeWidth="1">
-        <line x1="80" y1="130" x2="720" y2="130" />
-        <line x1="80" y1="220" x2="720" y2="220" />
-        <line x1="80" y1="310" x2="720" y2="310" />
-        <line x1="80" y1="400" x2="720" y2="400" />
-        <line x1="80" y1="490" x2="720" y2="490" />
-      </g>
+      <rect x="36" y="44" width="728" height="512" stroke="#2b2b2b" />
+      <line x1="36" y1="86" x2="764" y2="86" stroke="#282828" />
+      <text
+        x="56"
+        y="71"
+        fill="#ededed"
+        fontFamily="monospace"
+        fontSize="10"
+        letterSpacing="2.6"
+      >
+        MARGINPILOT
+      </text>
+      <text
+        x="744"
+        y="71"
+        fill="#6f6f6f"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="1.6"
+        textAnchor="end"
+      >
+        WORKSPACE / FINANCE
+      </text>
 
-      <g>
-        {bars.map((height, index) => {
-          const x = 168 + index * 54;
-          return (
-            <g key={x}>
+      <line x1="198" y1="86" x2="198" y2="556" stroke="#262626" />
+      {nav.map((item) => (
+        <g key={item.label}>
+          {item.active ? (
+            <rect x="36" y={item.y - 11} width="2" height="15" fill="#f5f5f5" />
+          ) : null}
+          <text
+            x="60"
+            y={item.y}
+            fill={item.active ? "#f5f5f5" : "#7c7c7c"}
+            fontFamily="monospace"
+            fontSize="8"
+            letterSpacing="1"
+          >
+            {item.label}
+          </text>
+          {item.tag ? (
+            <g>
               <rect
-                x={x}
-                y={490 - height}
-                width="20"
-                height={height}
-                stroke="#4c4c4c"
-                strokeWidth="1"
-                fill={`url(#${slug}-bar)`}
+                x="146"
+                y={item.y - 9}
+                width="22"
+                height="12"
+                stroke="#454545"
               />
-              <rect
-                x={x + 26}
-                y={490 - height * 0.62}
-                width="6"
-                height={height * 0.62}
-                fill="#404040"
-              />
+              <text
+                x="157"
+                y={item.y}
+                fill="#8a8a8a"
+                fontFamily="monospace"
+                fontSize="6"
+                letterSpacing="0.6"
+                textAnchor="middle"
+              >
+                {item.tag}
+              </text>
             </g>
-          );
-        })}
+          ) : null}
+        </g>
+      ))}
+      <text
+        x="60"
+        y="516"
+        fill="#616161"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1"
+      >
+        POSTGRESQL · RLS
+      </text>
+      <text
+        x="60"
+        y="530"
+        fill="#616161"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1"
+      >
+        APPEND-ONLY AUDIT
+      </text>
+
+      <text
+        x="222"
+        y="120"
+        fill="#f5f5f5"
+        fontFamily="monospace"
+        fontSize="12"
+        letterSpacing="2.4"
+      >
+        RECONCILIATION
+      </text>
+      <text
+        x="222"
+        y="138"
+        fill="#7c7c7c"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="1"
+      >
+        SETTLEMENT ↔ PAYOUT MATCHING
+      </text>
+      <text
+        x="588"
+        y="120"
+        fill="#929292"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1.2"
+        textAnchor="end"
+      >
+        M4 · IN DEVELOPMENT
+      </text>
+
+      <line x1="222" y1="158" x2="588" y2="158" stroke="#2b2b2b" />
+      <g
+        fill="#6f6f6f"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1.2"
+      >
+        <text x="222" y="174">SOURCE</text>
+        <text x="330" y="174">REFERENCE</text>
+        <text x="456" y="174">STATUS</text>
+        <text x="588" y="174" textAnchor="end">
+          DELTA
+        </text>
       </g>
 
-      <polyline
-        points={points}
-        stroke={`url(#${slug}-line)`}
-        strokeWidth="1.5"
+      <rect
+        x="222"
+        y="190"
+        width="366"
+        height="150"
+        stroke="#3a3a3a"
+        strokeDasharray="3 5"
       />
-      <line
-        x1="80"
-        y1="490"
-        x2="720"
-        y2="490"
-        stroke="#6e6e6e"
-        strokeWidth="1"
-      />
+      <text
+        x="405"
+        y="252"
+        fill="#c9c9c9"
+        fontFamily="monospace"
+        fontSize="9"
+        letterSpacing="1.6"
+        textAnchor="middle"
+      >
+        ENGINE IN DEVELOPMENT
+      </text>
+      <text
+        x="405"
+        y="270"
+        fill="#6f6f6f"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1"
+        textAnchor="middle"
+      >
+        RULES DOCUMENTED · M4 NEXT
+      </text>
 
-      <g stroke="#6a6a6a" strokeWidth="1">
-        <rect x="566" y="110" width="154" height="104" />
-        <line x1="566" y1="158" x2="720" y2="158" />
-        <circle cx="592" cy="135" r="5" stroke="#b8b8b8" />
-        <line x1="606" y1="135" x2="688" y2="135" />
-        <line x1="586" y1="182" x2="646" y2="182" />
-        <line x1="586" y1="198" x2="700" y2="198" />
+      <text
+        x="222"
+        y="374"
+        fill="#929292"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="1.4"
+      >
+        AUDIT LOG / APPEND-ONLY
+      </text>
+      <line x1="222" y1="384" x2="588" y2="384" stroke="#262626" />
+      {auditRows.map(([left, right, y]) => (
+        <g key={left}>
+          <rect x="222" y={y - 9} width="4" height="4" fill="#8a8a8a" />
+          <text
+            x="236"
+            y={y}
+            fill="#a8a8a8"
+            fontFamily="monospace"
+            fontSize="7"
+            letterSpacing="0.6"
+          >
+            {left}
+          </text>
+          <text
+            x="344"
+            y={y}
+            fill="#6f6f6f"
+            fontFamily="monospace"
+            fontSize="7"
+            letterSpacing="0.6"
+          >
+            {right}
+          </text>
+          <text
+            x="588"
+            y={y}
+            fill="#8a8a8a"
+            fontFamily="monospace"
+            fontSize="6"
+            letterSpacing="1"
+            textAnchor="end"
+          >
+            RECORDED
+          </text>
+        </g>
+      ))}
+
+      <line x1="610" y1="86" x2="610" y2="556" stroke="#262626" />
+      <text
+        x="628"
+        y="120"
+        fill="#929292"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="1.4"
+      >
+        CONTROLS
+      </text>
+      {controls.map(([label, y]) => (
+        <g key={label}>
+          <rect x="628" y={y - 7} width="4" height="4" fill="#8a8a8a" />
+          <text
+            x="642"
+            y={y}
+            fill="#8a8a8a"
+            fontFamily="monospace"
+            fontSize="6.3"
+            letterSpacing="0.8"
+          >
+            {label}
+          </text>
+        </g>
+      ))}
+
+      <text
+        x="628"
+        y="274"
+        fill="#929292"
+        fontFamily="monospace"
+        fontSize="7"
+        letterSpacing="1.4"
+      >
+        DATA LAYER
+      </text>
+      <g
+        fill="#6f6f6f"
+        fontFamily="monospace"
+        fontSize="6.3"
+        letterSpacing="0.8"
+      >
+        <text x="628" y="296">POSTGRESQL</text>
+        <text x="628" y="316">FASTAPI SERVICE</text>
+        <text x="628" y="336">NGINX EDGE</text>
+        <text x="628" y="356">NEXT.JS WORKSPACE</text>
       </g>
 
-      <line
-        x1="122"
-        y1="526"
-        x2="720"
-        y2="526"
-        stroke="#333333"
-        strokeWidth="1"
-      />
-      <g fill="#7a7a7a" fontFamily="monospace" fontSize="9" letterSpacing="3">
-        <text x="180" y="100">LEDGER / RECONCILE</text>
-        <text x="548" y="100">MARGIN</text>
-        <text x="180" y="505">FINANCIAL INTELLIGENCE</text>
-      </g>
+      <line x1="36" y1="556" x2="764" y2="556" stroke="#262626" />
+      <text
+        x="56"
+        y="580"
+        fill="#7c7c7c"
+        fontFamily="monospace"
+        fontSize="6.5"
+        letterSpacing="1.2"
+      >
+        DESIGNED PREVIEW · M0–M3 IMPLEMENTED · NOT A LIVE BUILD
+      </text>
     </svg>
   );
 }
@@ -430,9 +641,11 @@ export function ProjectVisual({
     >
       {art}
       <div className="project-sheen" aria-hidden="true" />
-      <span className="pointer-events-none absolute bottom-5 left-5 font-display text-[clamp(3.2rem,7vw,6.5rem)] font-medium leading-none tracking-[-0.06em] text-chalk/[0.22]">
-        {project.index}
-      </span>
+      {project.slug !== "marginpilot" ? (
+        <span className="pointer-events-none absolute bottom-5 left-5 font-display text-[clamp(3.2rem,7vw,6.5rem)] font-medium leading-none tracking-[-0.06em] text-chalk/[0.22]">
+          {project.index}
+        </span>
+      ) : null}
       {sizes === "detail" ? (
         <span className="mono-micro pointer-events-none absolute right-5 top-5 text-ash">
           Case study / {project.index}

@@ -28,7 +28,6 @@ export type Profile = {
     resume: ExternalLink;
     resumePage: ExternalLink;
   };
-  disciplines: readonly string[];
   interests: readonly string[];
   facts: readonly {
     label: string;
@@ -77,14 +76,6 @@ export const profile: Profile = {
       href: "/resume",
     },
   },
-  disciplines: [
-    "Applied AI",
-    "RAG systems",
-    "LLM applications",
-    "Python backend",
-    "Retrieval & evaluation",
-    "Product engineering",
-  ],
   interests: [
     "Applied AI",
     "Generative AI",
@@ -97,21 +88,7 @@ export const profile: Profile = {
     "Product engineering",
   ],
   facts: [
-    { label: "Background", value: "B.Tech IT — AI & Robotics" },
-    { label: "Focus", value: "Applied AI / LLM applications" },
-    {
-      label: "Currently",
-      value: "Building MarginPilot and developing AI/software products",
-    },
-    {
-      label: "Working across",
-      value: "Python, FastAPI, RAG, FAISS, Ollama, PostgreSQL, React",
-    },
-    {
-      label: "Availability",
-      value:
-        "Open to entry-level Applied AI, Generative AI and Python development opportunities",
-    },
     { label: "Location", value: "India — Open to relocation" },
+    { label: "Currently", value: "Building MarginPilot" },
   ],
 };

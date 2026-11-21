@@ -74,9 +74,8 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       id: `nav-${item.id}`,
       label: item.label,
       group: "Navigate" as const,
-      hint: item.index,
       icon: item.id === "about" ? User : item.id === "work" ? Layers : Home,
-      keywords: `${item.label} section ${item.index}`,
+      keywords: `${item.label} section`,
       run: () => goToSection(item.id),
     })),
     ...projects.map((project) => ({

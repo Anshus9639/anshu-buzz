@@ -81,13 +81,8 @@ export function MobileMenu({
                       onClick={onClose}
                       className="group flex items-center justify-between gap-6 py-5"
                     >
-                      <span className="flex items-baseline gap-4">
-                        <span className="mono-micro text-ash">
-                          {item.index}
-                        </span>
-                        <span className="font-display text-[2.4rem] font-medium uppercase leading-none tracking-[-0.045em] text-chalk">
-                          {item.label}
-                        </span>
+                      <span className="font-display text-[2.4rem] font-medium uppercase leading-none tracking-[-0.045em] text-chalk">
+                        {item.label}
                       </span>
                       <ArrowUpRight
                         aria-hidden="true"
