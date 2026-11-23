@@ -1,4 +1,6 @@
-import type { CSSProperties, ReactNode } from "react";
+"use client";
+
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 type RevealProps = {
@@ -16,8 +18,34 @@ export function Reveal({
   y = 26,
   duration = 0.85,
 }: RevealProps) {
+  const elementRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    if (!("IntersectionObserver" in window)) {
+      element.setAttribute("data-shown", "true");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          element.setAttribute("data-shown", "true");
+          observer.unobserve(element);
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <div
+      ref={elementRef}
       data-reveal
       className={cn("reveal", className)}
       style={

@@ -6,7 +6,6 @@ import { profile } from "@/data/profile";
 import { SiteHeader } from "@/components/navigation/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
-import { RevealObserver } from "@/components/animations/RevealObserver";
 
 const display = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -142,7 +141,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
 
         <ScrollProgress />
-        <RevealObserver />
         <SiteHeader />
         <main id="main" tabIndex={-1}>
           {children}

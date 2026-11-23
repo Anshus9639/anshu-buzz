@@ -79,6 +79,7 @@ export function Work() {
               <ProjectCard
                 project={project}
                 aspectClass={aspectClasses(index)}
+                projectIndex={index}
               />
             </article>
           ))}

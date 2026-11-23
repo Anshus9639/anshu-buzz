@@ -3,6 +3,7 @@ import { ArrowUpRight } from "lucide-react";
 import { navItems } from "@/lib/navigation";
 import { profile } from "@/data/profile";
 import { Availability } from "@/components/ui/Availability";
+import { FooterWordmark } from "@/components/layout/FooterWordmark";
 
 export function Footer() {
   const year = 2026;
@@ -85,13 +86,8 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="overflow-hidden border-t border-hairline pt-7">
-          <p
-            aria-hidden="true"
-            className="select-none whitespace-nowrap font-display text-[clamp(4.75rem,19.4vw,19rem)] font-medium leading-[0.72] tracking-[-0.065em] text-chalk"
-          >
-            {profile.brand}
-          </p>
+        <div className="overflow-hidden border-t border-hairline py-8 sm:py-10">
+          <FooterWordmark />
         </div>
 
         <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-3 border-t border-hairline py-6">

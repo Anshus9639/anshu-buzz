@@ -15,7 +15,7 @@ export async function BarOfTheDay() {
         BAR OF THE DAY.
       </h2>
       <div
-        className="hero-fade mt-5 min-h-[11.5rem] sm:min-h-[12rem] lg:min-h-[12.5rem]"
+        className="hero-fade bar-of-the-day mt-5 min-h-[11.5rem] sm:min-h-[12rem] lg:min-h-[12.5rem]"
         style={{ animationDelay: "420ms" }}
       >
         <blockquote className="font-display text-[1.5rem] leading-[1.35] tracking-[-0.015em] text-chalk sm:text-[1.625rem] lg:text-[1.75rem]">

@@ -8,12 +8,14 @@ type ProjectCardProps = {
   project: Project;
   aspectClass: string;
   className?: string;
+  projectIndex?: number;
 };
 
 export function ProjectCard({
   project,
   aspectClass,
   className,
+  projectIndex = 0,
 }: ProjectCardProps) {
   const hasLive = Boolean(project.links.live);
   const hasSource = Boolean(project.links.github);
@@ -25,27 +27,29 @@ export function ProjectCard({
     project.links.sourceNote;
 
   return (
-    <div className={cn("flex flex-col", className)}>
+    <div className={cn("project-card flex flex-col", className)}>
       <div
         className={cn(
           "preview-shell group relative border border-hairline",
           aspectClass,
         )}
       >
-        <ProjectPreview project={project} />
+        <div className="preview-media absolute inset-0">
+          <ProjectPreview project={project} />
+        </div>
 
         <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex items-start justify-between gap-4 bg-gradient-to-b from-ink/95 via-ink/70 to-transparent p-4 pb-10 sm:p-5 sm:pb-12">
-          {project.walkthrough ? (
-            <span className="mono-micro preview-caption block whitespace-nowrap text-ash">
-              Recorded walkthrough
+          <span className="mono-micro preview-caption block whitespace-nowrap text-ash">
+            <span className="text-chalk">
+              CASE {String(projectIndex + 1).padStart(2, "0")}
+            </span>
+            {project.walkthrough ? (
               <span className="hidden sm:inline">
                 {" "}
-                · {project.walkthrough.duration}
+                / Recorded walkthrough · {project.walkthrough.duration}
               </span>
-            </span>
-          ) : (
-            <span />
-          )}
+            ) : null}
+          </span>
           <span className="mono-micro preview-caption flex max-w-[60%] shrink-0 items-center gap-2 whitespace-nowrap text-right text-ash">
             <span
               className="status-dot shrink-0"

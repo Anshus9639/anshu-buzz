@@ -224,6 +224,160 @@
     animation: hero-fade 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s forwards;
   }
 
+  .hero-avatar {
+    transition:
+      border-color 0.4s var(--ease-editorial),
+      transform 0.6s var(--ease-editorial),
+      filter 0.4s ease;
+  }
+
+  .hero-avatar:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    transform: translateY(-3px) rotate(-2deg);
+  }
+
+  .bar-of-the-day {
+    position: relative;
+  }
+
+  .bar-of-the-day::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    width: 1.75rem;
+    height: 1px;
+    background: currentColor;
+    color: var(--color-dust);
+    transform-origin: left;
+    transition: width 0.5s var(--ease-editorial);
+  }
+
+  .bar-of-the-day:hover::before {
+    width: 3.5rem;
+    color: var(--color-chalk);
+  }
+
+  .bar-of-the-day blockquote {
+    transition:
+      color 0.4s var(--ease-editorial),
+      transform 0.5s var(--ease-editorial);
+  }
+
+  .bar-of-the-day:hover blockquote {
+    color: var(--color-chalk);
+    transform: translateX(4px);
+  }
+
+  .preview-shell {
+    overflow: hidden;
+    background: var(--color-raised);
+    transition:
+      border-color 0.5s var(--ease-editorial),
+      box-shadow 0.5s var(--ease-editorial),
+      transform 0.5s var(--ease-editorial);
+  }
+
+  .preview-shell:hover {
+    border-color: rgba(255, 255, 255, 0.28);
+    box-shadow: 0 1.25rem 4.5rem rgba(0, 0, 0, 0.28);
+    transform: translateY(-4px);
+  }
+
+  .preview-media {
+    overflow: hidden;
+    transition: transform 0.8s var(--ease-editorial);
+  }
+
+  .preview-shell:hover .preview-media {
+    transform: scale(1.012);
+  }
+
+  .project-card .project-title a {
+    transition:
+      color 0.4s var(--ease-editorial),
+      letter-spacing 0.5s var(--ease-editorial);
+  }
+
+  .project-card:hover .project-title a {
+    color: var(--color-ash);
+    letter-spacing: -0.02em;
+  }
+
+  .footer-wordmark {
+    --wordmark-x: 0px;
+    --wordmark-y: 0px;
+    --wordmark-rx: 0deg;
+    --wordmark-ry: 0deg;
+    width: 100%;
+    cursor: crosshair;
+    perspective: 900px;
+  }
+
+  .footer-wordmark-svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    transform:
+      translate3d(var(--wordmark-x), var(--wordmark-y), 0)
+      rotateX(var(--wordmark-rx))
+      rotateY(var(--wordmark-ry));
+    transition: transform 180ms var(--ease-editorial);
+  }
+
+  .footer-wordmark-main,
+  .footer-wordmark-ghost,
+  .footer-wordmark-detail,
+  .footer-wordmark-nodes,
+  .footer-wordmark-scan {
+    fill: none;
+    vector-effect: non-scaling-stroke;
+  }
+
+  .footer-wordmark-main,
+  .footer-wordmark-ghost {
+    stroke-linecap: square;
+    stroke-linejoin: bevel;
+  }
+
+  .footer-wordmark-main {
+    stroke: var(--color-chalk);
+    stroke-width: 3;
+  }
+
+  .footer-wordmark-ghost {
+    stroke: rgba(255, 255, 255, 0.12);
+    stroke-width: 1;
+    transform: translate(-8px, 8px);
+  }
+
+  .footer-wordmark-detail {
+    stroke: var(--color-dust);
+    stroke-width: 1;
+  }
+
+  .footer-wordmark-nodes circle {
+    fill: var(--color-ink);
+    stroke: var(--color-ash);
+    stroke-width: 1.5;
+    vector-effect: non-scaling-stroke;
+    transition:
+      fill 300ms var(--ease-editorial),
+      transform 300ms var(--ease-editorial);
+  }
+
+  .footer-wordmark:hover .footer-wordmark-nodes circle {
+    fill: var(--color-chalk);
+  }
+
+  .footer-wordmark-scan {
+    stroke: rgba(255, 255, 255, 0.22);
+    stroke-width: 1;
+    stroke-dasharray: 8 14;
+    animation: wordmark-scan 5s linear infinite;
+  }
+
   @media (max-width: 767px) {
     .noise-overlay {
       display: none;
@@ -747,6 +901,15 @@
   }
 }
 
+@keyframes wordmark-scan {
+  from {
+    transform: translateY(-196px);
+  }
+  to {
+    transform: translateY(196px);
+  }
+}
+
 @keyframes status-pulse {
   0% {
     box-shadow: 0 0 0 0 rgba(244, 244, 244, 0.32);
@@ -822,7 +985,8 @@
   .hero-fade,
   .status-dot,
   .scroll-cue-line::after,
-  .project-enter {
+  .project-enter,
+  .footer-wordmark-scan {
     animation: none !important;
     opacity: 1;
     transform: none;

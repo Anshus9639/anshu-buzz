@@ -41,7 +41,7 @@ export function Hero() {
                     height={160}
                     sizes="(min-width: 640px) 84px, 68px"
                     priority
-                    className="size-[68px] shrink-0 rounded-full border border-white/15 object-cover sm:size-[84px]"
+                    className="hero-avatar size-[68px] shrink-0 rounded-full border border-white/15 object-cover sm:size-[84px]"
                   />
                   <div>
                     <p className="mono-micro text-ash">{profile.name}</p>
