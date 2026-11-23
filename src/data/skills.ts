@@ -41,7 +41,17 @@ export const skillCategories: SkillCategory[] = [
   },
   {
     title: "Backend & APIs",
-    skills: ["FastAPI", "Flask", "REST APIs", "PostgreSQL", "Streamlit"],
+    skills: [
+      "FastAPI",
+      "Flask",
+      "Node.js",
+      "Express",
+      "REST APIs",
+      "PostgreSQL",
+      "MongoDB",
+      "Socket.IO",
+      "Streamlit",
+    ],
   },
   {
     title: "Frontend & Infrastructure",
