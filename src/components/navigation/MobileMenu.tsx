@@ -64,7 +64,7 @@ export function MobileMenu({
               <ul className="border-t border-hairline">
                 {navItems.map((item, index) => (
                   <motion.li
-                    key={item.id}
+                    key={item.href}
                     className="border-b border-hairline"
                     initial={
                       reduceMotion ? false : { opacity: 0, y: 18 }

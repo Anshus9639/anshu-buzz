@@ -4,15 +4,16 @@ Personal portfolio of Anshu Saini — Entry-Level Applied AI / Generative AI Eng
 AI Engineer · Python Developer · Software Builder.
 
 Underground luxury × dark minimalism × futuristic editorial design. Built with
-Next.js App Router, TypeScript, Tailwind CSS 4, and a lazy-loaded Three.js chrome
-sculpture.
+Next.js App Router, TypeScript, and Tailwind CSS 4, with a Markdown/MDX
+writing section.
 
 ## Stack
 
 - Next.js 16.4 (App Router, Turbopack, Cache Components)
 - React 19.3 + TypeScript
 - Tailwind CSS 4 (design tokens in `src/app/globals.css`)
-- Three.js + React Three Fiber + Drei (hero sculpture, desktop only)
+- MDX via `next-mdx-remote` + `gray-matter`, with `remark-gfm`,
+  `rehype-slug` and `rehype-highlight`
 - Framer Motion (overlays only: command palette, mobile menu)
 - Lucide React icons
 
@@ -42,6 +43,7 @@ All copy and data are centralised — no hardcoded personal content in component
 | `src/data/experience.ts` | Codolog internship timeline |
 | `src/data/education.ts` | Pillai College B.Tech IT entry |
 | `src/lib/navigation.ts` | Header links and section order |
+| `src/content/blog/*.mdx` | Blog articles, drafts and publishing metadata |
 
 ### Content rules
 
@@ -70,17 +72,80 @@ All copy and data are centralised — no hardcoded personal content in component
 print-friendly page built from the same data. Both are linked from the header
 menu, command palette, contact section and footer.
 
+## Writing (blog)
+
+Articles live in `src/content/blog/`, one `.mdx` file per post. Nothing is
+invented at build time: if the folder contains no published post, `/blog`
+shows an empty state, the homepage `LATEST WRITING` section is omitted, and
+the RSS feed is empty.
+
+### Publishing a post
+
+1. Duplicate `src/content/blog/writing-template.mdx` under a new filename,
+   e.g. `src/content/blog/building-a-rag-pipeline.mdx`.
+2. Fill the front matter:
+
+   ```yaml
+   ---
+   title: "Building a retrieval-augmented pipeline"
+   description: "One or two sentences used on the listing, article header and feed."
+   date: "2026-11-24"          # publication date, YYYY-MM-DD
+   slug: "building-a-rag-pipeline"  # optional; defaults to the filename
+   tags: ["Applied AI", "RAG"]
+   published: true             # false keeps the file completely private
+   coverImage: "/images/example.webp"  # optional, path under public/
+   ---
+   ```
+
+3. Write the body in Markdown/MDX. Supported: headings (H2/H3, auto IDs and a
+   table of contents when there are 3+), paragraphs, lists, links, blockquotes,
+   tables (GFM), horizontal rules, images and fenced code blocks with syntax
+   highlighting. Article URLs are `/blog/<slug>`.
+4. Run `npm run build` (or deploy) — the listing, homepage section, sitemap,
+   RSS feed and article route all read from the same files. Reading time is
+   computed automatically at ~200 words per minute.
+
+### Drafts and ordering
+
+- Only posts with `published: true` are listed, routable, sitemapped or
+  included in `feed.xml`. A missing `title`, `description` or valid `date`
+  also keeps a file private.
+- Posts are sorted newest first by `date`.
+- `writing-template.mdx` ships as an unpublished reference; keep a real post
+  out of the repository until you are ready to publish it.
+
+### Blog routes
+
+| Route | Purpose |
+| --- | --- |
+| `/blog` | Editorial list of published posts |
+| `/blog/[slug]` | Article with author avatar, tags, date, reading time, optional TOC, related posts and BlogPosting JSON-LD |
+| `/feed.xml` | RSS 2.0 feed of published posts |
+| `/sitemap.xml` | Home, projects, resume, `/blog` and published article URLs |
+
+Under Cache Components, `/blog` is prerendered at build; article pages render
+on request and are cached for an hour. Because Cache Components streams a
+shell before `notFound()` can run, status codes are decided in
+`src/proxy.ts`: the Proxy matches `/blog/:slug` only, checks the slug against
+the same published-post source, and rewrites missing or unpublished slugs to
+the site's 404 route. That yields a real HTTP 404 with the standard
+"OFF THE MAP." page and a `noindex` tag, while published articles keep
+returning 200. Draft content is never rendered.
+
 ## Architecture notes
 
 - **Server-first rendering.** Sections are server components. The only
   baseline client code is the header/menu triggers, copy-email button,
   scroll progress, a single reveal observer and a single pointer spotlight
-  listener.
-- **3D loading.** `ChromeStage` waits for the first user interaction
-  (`pointermove`, `scroll`, or `keydown`) before loading R3F, then defers the
-  import to idle time. It only runs on `min-width: 1024px` with a fine
-  pointer, and falls back to a static CSS chrome composition for reduced
-  motion, data-saver, small screens, missing WebGL, or a render error.
+  listener. The hero has no 3D scene.
+- **Blog rendering.** Posts are read from disk with `gray-matter` and
+  compiled on the server with `next-mdx-remote/rsc`; no MDX runtime ships to
+  the browser. The compiled article is wrapped in a cached function
+  (`getRenderedPost`) so repeat requests reuse it for an hour.
+- **Blog 404 status.** `src/proxy.ts` runs only for `/blog/:slug`. It checks
+  the slug against the published posts before routing, so unknown and
+  unpublished articles return a real 404 instead of a streamed 200. The build
+  traces the MDX folder into the Proxy bundle.
 - **Project filtering** is CSS-only (`:has()` + radio inputs), so it works
   without JavaScript and remains keyboard operable. Counts are derived from
   the project data.
@@ -134,6 +199,40 @@ Additional checks executed:
 
 Scores vary by run and machine; rerun Lighthouse yourself to confirm.
 
+### Blog integration checks (2026-11-24, local production build)
+
+- `npm run build`, `npm run lint`, `npx tsc --noEmit` — clean, with zero
+  published posts and with temporary published fixtures.
+- With two temporary fixtures: listing order, tags, dates and reading times;
+  article H1, metadata, canonical, Open Graph article tags and BlogPosting
+  JSON-LD; heading IDs, TOC anchors, GFM table, highlighted code block,
+  blockquote and related posts; RSS ordering and escaping; sitemap entries.
+- Draft visibility: the unpublished template never appears in `/blog`, the
+  homepage, `feed.xml` or `sitemap.xml`. Its URL and unknown slugs return a
+  real HTTP 404 (verified with `curl`), render the site's "OFF THE MAP." page
+  with `noindex`, and expose no draft content.
+- Status codes: `/blog`, `/feed.xml`, `/sitemap.xml`, `/resume`, the homepage,
+  all four project pages, and published articles return 200; unpublished and
+  unknown article slugs return 404 (not 200).
+- Empty state: `/blog` renders "No published notes yet.", the homepage
+  `LATEST WRITING` section is absent, and the feed contains zero items.
+- Responsive: no horizontal overflow at 360/390/768/1440 across 10 routes,
+  including the 404 page; long code lines and tables scroll inside their own
+  containers; TOC hidden below `lg`.
+- Accessibility: axe-core 0 violations on the listing (empty and populated),
+  an article and the 404 page; skip link is the first tab stop; scrollable
+  code blocks and tables are keyboard focusable.
+- Profile images: `public/images/anshu-profile.webp` remains the original
+  1151×1438 photograph. `public/images/anshu-avatar.webp` is a 640×640
+  head-and-shoulders crop derived from it; it renders at 68×68 (mobile) and
+  84×84 (desktop) in the hero and 40×40 on articles, circular, unfiltered,
+  `object-fit: cover`, never enlarged.
+- All four project routes and `/resume` still return 200; no unexpected
+  console errors or failed subresource requests.
+
+Fixtures were deleted after validation, so the repository ships with the
+empty state.
+
 ## Deployment status
 
 This version has **not been deployed**. No DNS, hosting, or production backend
@@ -175,18 +274,21 @@ Canonical URLs, sitemap, robots and Open Graph metadata already point to
 
 ```
 src/
-  app/            routes, metadata, sitemap, robots, 404, resume, OG image
+  app/            routes, metadata, sitemap, robots, 404, resume, blog, feed, OG image
   components/
     animations/   reveal observer, pointer spotlight
+    blog/         MDX component mapping
+    contributions/ GitHub activity graph
     layout/       footer, scroll progress
     navigation/   header, mobile menu, command palette
     projects/     project card, detail layout, visual
-    sections/     hero, ticker, work, about, expertise, experience, contact
-    three/        chrome stage, scene, error boundary
+    sections/     hero, work, latest writing, about, expertise, experience, contact
     ui/           button, availability, section heading, copy email
+  content/blog/   published articles and drafts (MDX)
   data/           profile, projects, additional-projects, skills, experience, education
   hooks/          modal focus management
-  lib/            navigation, utilities
+  lib/            navigation, blog loading/rendering, github contributions, utilities
+  proxy.ts        real 404 status for unpublished and unknown blog slugs
 ```
 
 ## License

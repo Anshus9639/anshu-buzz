@@ -8,7 +8,7 @@ export type SectionId =
 export type NavItem = {
   label: string;
   href: string;
-  id: SectionId;
+  id?: SectionId;
 };
 
 export const navItems: NavItem[] = [
@@ -17,6 +17,9 @@ export const navItems: NavItem[] = [
   { label: "Expertise", href: "/#expertise", id: "expertise" },
   { label: "Experience", href: "/#experience", id: "experience" },
   { label: "Contact", href: "/#contact", id: "contact" },
+  { label: "Blog", href: "/blog" },
 ];
 
-export const sectionIds = navItems.map((item) => item.id);
+export const sectionIds = navItems.flatMap((item) =>
+  item.id ? [item.id] : [],
+);

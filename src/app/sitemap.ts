@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { profile } from "@/data/profile";
 import { projects } from "@/data/projects";
+import { getPublishedPosts } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
@@ -13,6 +14,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: `${profile.url}/projects/${project.slug}`,
       changeFrequency: "yearly" as const,
       priority: 0.8,
+    })),
+    {
+      url: `${profile.url}/blog`,
+      changeFrequency: "weekly",
+      priority: 0.7,
+    },
+    ...getPublishedPosts().map((post) => ({
+      url: `${profile.url}/blog/${post.slug}`,
+      lastModified: post.date,
+      changeFrequency: "yearly" as const,
+      priority: 0.7,
     })),
     {
       url: `${profile.url}/resume`,

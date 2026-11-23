@@ -71,12 +71,21 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
   const commands: CommandItem[] = [
     ...navItems.map((item) => ({
-      id: `nav-${item.id}`,
+      id: `nav-${item.id ?? item.href}`,
       label: item.label,
       group: "Navigate" as const,
       icon: item.id === "about" ? User : item.id === "work" ? Layers : Home,
-      keywords: `${item.label} section`,
-      run: () => goToSection(item.id),
+      keywords: item.id
+        ? `${item.label} section`
+        : `${item.label} writing articles notes`,
+      run: () => {
+        if (item.id) {
+          goToSection(item.id);
+          return;
+        }
+        onClose();
+        router.push(item.href);
+      },
     })),
     ...projects.map((project) => ({
       id: `project-${project.slug}`,

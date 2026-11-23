@@ -19,7 +19,7 @@ export function Footer() {
             <h2 className="mono-micro text-ash">Index</h2>
             <ul className="mt-4 space-y-2">
               {navItems.map((item) => (
-                <li key={item.id}>
+                <li key={item.href}>
                   <Link
                     href={item.href}
                     className="link-underline inline-flex min-h-8 items-center font-mono text-[10px] uppercase tracking-[0.14em] text-ash transition-colors hover:text-chalk"

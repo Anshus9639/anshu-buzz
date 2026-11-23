@@ -127,12 +127,18 @@ export function SiteHeader() {
             className="hidden items-center gap-7 lg:flex xl:gap-9"
           >
             {navItems.map((item) => {
-              const isActive = isHome && activeSection === item.id;
+              const isBlog =
+                item.href === "/blog" && pathname.startsWith("/blog");
+              const isActive =
+                isBlog ||
+                (isHome &&
+                  item.id !== undefined &&
+                  activeSection === item.id);
               return (
                 <Link
-                  key={item.id}
+                  key={item.href}
                   href={item.href}
-                  aria-current={isActive ? "location" : undefined}
+                  aria-current={isBlog ? "page" : isActive ? "location" : undefined}
                   className={cn(
                     "group/link relative py-2 font-mono text-[10px] uppercase tracking-[0.16em] transition-colors duration-300",
                     isActive ? "text-chalk" : "text-ash hover:text-chalk",

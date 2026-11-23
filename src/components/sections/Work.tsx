@@ -27,7 +27,7 @@ export function Work() {
     <section
       id="work"
       aria-labelledby="work-title"
-      className="section-pad bg-deep"
+      className="bg-deep pb-[clamp(5.5rem,10vw,9.5rem)] pt-[clamp(3.5rem,5.5vw,6rem)]"
     >
       <div className="container-edge work-shell">
         <SectionHeading

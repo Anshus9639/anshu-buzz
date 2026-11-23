@@ -6,6 +6,7 @@ type SectionHeadingProps = {
   description?: string;
   className?: string;
   titleId?: string;
+  level?: 1 | 2;
 };
 
 export function SectionHeading({
@@ -13,12 +14,15 @@ export function SectionHeading({
   description,
   className,
   titleId,
+  level = 2,
 }: SectionHeadingProps) {
+  const Heading = level === 1 ? "h1" : "h2";
+
   return (
     <header className={cn("border-t border-hairline pt-6", className)}>
-      <h2 id={titleId} className="section-title">
+      <Heading id={titleId} className="section-title">
         {title}
-      </h2>
+      </Heading>
       {description ? (
         <p className="mt-6 max-w-xl text-sm leading-relaxed text-ash">
           {description}
