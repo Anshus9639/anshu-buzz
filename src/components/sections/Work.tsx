@@ -64,7 +64,7 @@ export function Work() {
           </fieldset>
         </div>
 
-        <div className="mt-14 grid items-start gap-x-8 gap-y-16 lg:grid-cols-12 lg:gap-y-20">
+        <div className="mt-10 grid items-start gap-x-8 gap-y-12 sm:mt-12 lg:grid-cols-12 lg:gap-y-16">
           {projects.map((project, index) => (
             <article
               key={project.slug}
@@ -85,7 +85,7 @@ export function Work() {
           ))}
         </div>
 
-        <p className="mono-micro mt-16 text-ash">
+        <p className="mono-micro mt-12 text-ash sm:mt-14">
           More work on{" "}
           <a
             href={profile.links.github.href}

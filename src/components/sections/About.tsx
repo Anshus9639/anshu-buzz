@@ -13,7 +13,7 @@ export function About() {
       <div className="container-edge">
         <SectionHeading title="About." titleId="about-title" />
 
-        <div className="mt-14 grid gap-14 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-10 grid gap-10 sm:mt-12 lg:grid-cols-12 lg:gap-8">
           <div className="lg:col-span-7">
             <Reveal>
               <p className="max-w-3xl font-display text-[clamp(1.65rem,3.3vw,2.9rem)] font-normal leading-[1.15] tracking-[-0.03em] text-chalk">

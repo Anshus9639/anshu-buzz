@@ -11,7 +11,7 @@ export function Footer() {
   return (
     <footer className="site-footer border-t border-hairline">
       <div className="container-edge">
-        <div className="grid gap-10 py-14 md:grid-cols-12 md:gap-8">
+        <div className="grid gap-8 py-12 sm:py-14 md:grid-cols-12 md:gap-8">
           <div className="md:col-span-5">
             <Availability />
           </div>

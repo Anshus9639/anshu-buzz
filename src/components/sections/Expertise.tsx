@@ -11,7 +11,7 @@ export function Expertise() {
       <div className="container-edge">
         <SectionHeading title="Expertise." titleId="expertise-title" />
 
-        <dl className="mt-14 border-t border-hairline">
+        <dl className="mt-10 border-t border-hairline sm:mt-12">
           {skillCategories.map((category) => (
             <div
               key={category.title}

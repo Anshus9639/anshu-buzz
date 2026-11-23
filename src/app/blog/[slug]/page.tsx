@@ -194,7 +194,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
         ) : null}
       </div>
 
-      <footer className="mt-16 flex flex-wrap items-center justify-between gap-6 border-t border-hairline pt-8">
+      <footer className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-hairline pt-8 sm:mt-14">
         <div className="flex items-center gap-3">
           <Image
             src="/images/anshu-avatar.webp"
@@ -222,7 +222,7 @@ export default async function BlogPostPage({ params }: BlogPostPageProps) {
       {related.length > 0 ? (
         <section
           aria-labelledby="related-title"
-          className="mt-16 border-t border-hairline pt-8"
+          className="mt-12 border-t border-hairline pt-8 sm:mt-14"
         >
           <h2 id="related-title" className="mono-label text-ash">
             Related writing

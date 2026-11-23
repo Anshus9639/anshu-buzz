@@ -11,7 +11,7 @@ export function LatestWriting() {
       aria-labelledby="latest-writing-title"
       className="border-t border-hairline"
     >
-      <div className="container-edge py-14 lg:py-16">
+      <div className="container-edge py-12 lg:py-14">
         <div className="flex flex-wrap items-end justify-between gap-4 border-b border-hairline pb-5">
           <h2 id="latest-writing-title" className="mono-label text-ash">
             Latest writing

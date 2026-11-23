@@ -43,7 +43,7 @@ export default function BlogPage() {
       />
 
       {posts.length === 0 ? (
-        <div className="mt-14 max-w-xl border-t border-hairline pt-8">
+        <div className="mt-10 max-w-xl border-t border-hairline pt-8 sm:mt-12">
           <p className="mono-micro text-ash">No published notes yet.</p>
           <p className="mt-4 text-sm leading-relaxed text-ash">
             The first one is in progress. For now, the{" "}

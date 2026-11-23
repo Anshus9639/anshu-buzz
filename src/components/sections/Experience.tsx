@@ -19,7 +19,7 @@ export function Experience() {
       <div className="container-edge">
         <SectionHeading title="Experience." titleId="experience-title" />
 
-        <ol className="mt-14 border-t border-hairline">
+        <ol className="mt-10 border-t border-hairline sm:mt-12">
             {professionalExperience.map((entry, index) => (
               <li
                 key={`${entry.organisation}-${entry.role}`}

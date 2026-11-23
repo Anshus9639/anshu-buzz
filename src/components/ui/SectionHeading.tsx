@@ -19,12 +19,12 @@ export function SectionHeading({
   const Heading = level === 1 ? "h1" : "h2";
 
   return (
-    <header className={cn("border-t border-hairline pt-6", className)}>
+    <header className={cn("border-t border-hairline pt-5", className)}>
       <Heading id={titleId} className="section-title">
         {title}
       </Heading>
       {description ? (
-        <p className="mt-6 max-w-xl text-sm leading-relaxed text-ash">
+        <p className="mt-5 max-w-xl text-sm leading-relaxed text-ash sm:mt-6">
           {description}
         </p>
       ) : null}

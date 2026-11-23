@@ -41,7 +41,7 @@ export function Contact() {
           Let’s talk.
         </h2>
 
-        <div className="mt-16 grid gap-12 border-t border-hairline pt-10 lg:grid-cols-12 lg:gap-8">
+        <div className="mt-12 grid gap-10 border-t border-hairline pt-8 sm:mt-14 lg:grid-cols-12 lg:gap-8 lg:pt-10">
           <div className="lg:col-span-5">
             <p className="max-w-sm text-sm leading-relaxed text-ash">
               I’m looking for entry-level applied AI, generative AI and Python

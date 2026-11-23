@@ -431,7 +431,7 @@ export function ProjectDetail({ project }: { project: Project }) {
       )}
 
       <div className="container-edge">
-        <div className="grid gap-12 border-t border-hairline py-12 lg:grid-cols-12 lg:gap-8 lg:py-16">
+        <div className="grid gap-10 border-t border-hairline py-10 sm:py-12 lg:grid-cols-12 lg:gap-8 lg:py-14">
           <aside className="lg:col-span-3">
             <nav
               aria-label="Case study sections"
@@ -691,7 +691,7 @@ export function ProjectDetail({ project }: { project: Project }) {
         href={`/projects/${nextProject.slug}`}
         className="group block border-t border-hairline"
       >
-        <div className="container-edge flex flex-col gap-6 py-12 sm:flex-row sm:items-end sm:justify-between lg:py-16">
+        <div className="container-edge flex flex-col gap-6 py-10 sm:flex-row sm:items-end sm:justify-between sm:py-12 lg:py-14">
           <div>
             <span className="mono-micro text-ash">
               Next case / {nextProject.index}

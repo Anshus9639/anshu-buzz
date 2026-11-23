@@ -19,9 +19,9 @@ export function Hero() {
         className="hero-grid pointer-events-none absolute inset-0 hidden lg:block"
       />
 
-      <div className="container-edge relative flex min-h-[60svh] flex-col pb-10 pt-24 sm:pt-28 lg:pb-12 lg:pt-32">
-        <div className="flex flex-1 flex-col justify-center py-8 lg:py-6">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-end lg:gap-x-10">
+      <div className="container-edge relative flex min-h-[58svh] flex-col pb-8 pt-20 sm:pt-24 lg:min-h-[62svh] lg:pb-10 lg:pt-28">
+        <div className="flex flex-1 flex-col justify-center py-6 lg:py-5">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_21rem] lg:items-end lg:gap-x-10">
             <div className="min-w-0">
               <h1 id="hero-title" className="hero-title">
                 <span className="hero-line">
