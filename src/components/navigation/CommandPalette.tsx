@@ -11,6 +11,8 @@ import {
   GitBranch,
   Home,
   Layers,
+  PenLine,
+  Rss,
   Search,
   User,
   X,
@@ -19,11 +21,12 @@ import type { LucideIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { navItems } from "@/lib/navigation";
 import { projects } from "@/data/projects";
+import { formatPostDate, getAllPosts } from "@/data/posts";
 import { profile } from "@/data/profile";
 import { cn, copyToClipboard, scrollToSection } from "@/lib/utils";
 import { useModal } from "@/hooks/useModal";
 
-type CommandGroup = "Navigate" | "Projects" | "Connect";
+type CommandGroup = "Navigate" | "Projects" | "Writing" | "Connect";
 
 type CommandItem = {
   id: string;
@@ -40,7 +43,12 @@ type CommandPaletteProps = {
   onClose: () => void;
 };
 
-const groupOrder: CommandGroup[] = ["Navigate", "Projects", "Connect"];
+const groupOrder: CommandGroup[] = [
+  "Navigate",
+  "Projects",
+  "Writing",
+  "Connect",
+];
 
 export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const panelRef = useRef<HTMLDivElement>(null);
@@ -74,9 +82,26 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       id: `nav-${item.id}`,
       label: item.label,
       group: "Navigate" as const,
-      icon: item.id === "about" ? User : item.id === "work" ? Layers : Home,
-      keywords: `${item.label} section`,
-      run: () => goToSection(item.id),
+      icon:
+        item.id === "about"
+          ? User
+          : item.id === "work"
+            ? Layers
+            : item.id === "writing"
+              ? PenLine
+              : Home,
+      keywords:
+        item.kind === "page"
+          ? `${item.label} blog posts articles notes`
+          : `${item.label} section`,
+      run: () => {
+        if (item.kind === "page") {
+          onClose();
+          router.push(item.href);
+        } else {
+          goToSection(item.id);
+        }
+      },
     })),
     ...projects.map((project) => ({
       id: `project-${project.slug}`,
@@ -90,6 +115,30 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
         router.push(`/projects/${project.slug}`);
       },
     })),
+    ...getAllPosts().map((post) => ({
+      id: `post-${post.slug}`,
+      label: post.title,
+      group: "Writing" as const,
+      hint: formatPostDate(post.date),
+      icon: PenLine,
+      keywords: `${post.title} ${post.summary} ${post.tags.join(" ")} blog post article writing`,
+      run: () => {
+        onClose();
+        router.push(`/writing/${post.slug}`);
+      },
+    })),
+    {
+      id: "rss",
+      label: "RSS feed",
+      group: "Writing",
+      hint: "Subscribe",
+      icon: Rss,
+      keywords: "rss feed subscribe blog atom",
+      run: () => {
+        onClose();
+        window.open("/feed.xml", "_blank", "noopener,noreferrer");
+      },
+    },
     {
       id: "copy-email",
       label: "Copy email address",
