@@ -6,6 +6,7 @@ import { profile } from "@/data/profile";
 import { SiteHeader } from "@/components/navigation/SiteHeader";
 import { Footer } from "@/components/layout/Footer";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
+import { getPublishedPosts } from "@/lib/blog";
 
 const display = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -94,6 +95,7 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
+  const hasPublishedBlogPosts = getPublishedPosts().length > 0;
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -141,11 +143,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </a>
 
         <ScrollProgress />
-        <SiteHeader />
+        <SiteHeader hasPublishedBlogPosts={hasPublishedBlogPosts} />
         <main id="main" tabIndex={-1}>
           {children}
         </main>
-        <Footer />
+        <Footer hasPublishedBlogPosts={hasPublishedBlogPosts} />
         <div className="noise-overlay" aria-hidden="true" />
 
         <script

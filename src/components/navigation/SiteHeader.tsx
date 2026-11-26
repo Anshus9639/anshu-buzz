@@ -5,10 +5,14 @@ import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import { Menu, Search } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { navItems, sectionIds } from "@/lib/navigation";
+import { getNavItems, sectionIds } from "@/lib/navigation";
 import { profile } from "@/data/profile";
 import { cn } from "@/lib/utils";
 import { useActiveSection } from "@/hooks/useActiveSection";
+
+type SiteHeaderProps = {
+  hasPublishedBlogPosts: boolean;
+};
 
 const CommandPalette = dynamic(
   () =>
@@ -26,9 +30,10 @@ const MobileMenu = dynamic(
   { ssr: false },
 );
 
-export function SiteHeader() {
+export function SiteHeader({ hasPublishedBlogPosts }: SiteHeaderProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const navItems = getNavItems(hasPublishedBlogPosts);
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [paletteOpen, setPaletteOpen] = useState(false);
@@ -74,12 +79,12 @@ export function SiteHeader() {
   }, []);
 
   const closePalette = useCallback(() => setPaletteOpen(false), []);
-  const closeMenu = useCallback(() => setMenuOpen(false), []);
+  const closeMenu = useCallback(() => setMenuOpen(false), [setMenuOpen]);
   const openCommandPalette = useCallback(() => {
     setMenuOpen(false);
     setPaletteSession((session) => session + 1);
     setPaletteOpen(true);
-  }, []);
+  }, [setMenuOpen, setPaletteOpen, setPaletteSession]);
 
   useEffect(() => {
     function handleKeyDown(event: KeyboardEvent) {
@@ -202,6 +207,7 @@ export function SiteHeader() {
           open
           onClose={closeMenu}
           onOpenCommandPalette={openCommandPalette}
+          navItems={navItems}
         />
       ) : null}
       {paletteOpen ? (
@@ -209,6 +215,7 @@ export function SiteHeader() {
           key={paletteSession}
           open
           onClose={closePalette}
+          navItems={navItems}
         />
       ) : null}
     </>

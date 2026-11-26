@@ -4,7 +4,7 @@ import Link from "next/link";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { ArrowUpRight, Mail, X } from "lucide-react";
 import { useRef } from "react";
-import { navItems } from "@/lib/navigation";
+import type { NavItem } from "@/lib/navigation";
 import { profile } from "@/data/profile";
 import { useModal } from "@/hooks/useModal";
 import { Availability } from "@/components/ui/Availability";
@@ -13,12 +13,14 @@ type MobileMenuProps = {
   open: boolean;
   onClose: () => void;
   onOpenCommandPalette: () => void;
+  navItems: NavItem[];
 };
 
 export function MobileMenu({
   open,
   onClose,
   onOpenCommandPalette,
+  navItems,
 }: MobileMenuProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();

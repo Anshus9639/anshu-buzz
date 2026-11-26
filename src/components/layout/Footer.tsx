@@ -1,12 +1,17 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
-import { navItems } from "@/lib/navigation";
+import { getNavItems } from "@/lib/navigation";
 import { profile } from "@/data/profile";
 import { Availability } from "@/components/ui/Availability";
 import { FooterWordmark } from "@/components/layout/FooterWordmark";
 
-export function Footer() {
+export function Footer({
+  hasPublishedBlogPosts,
+}: {
+  hasPublishedBlogPosts: boolean;
+}) {
   const year = 2026;
+  const navItems = getNavItems(hasPublishedBlogPosts);
 
   return (
     <footer className="site-footer border-t border-hairline">

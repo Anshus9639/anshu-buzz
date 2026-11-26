@@ -6,7 +6,7 @@ export async function ContributionActivity() {
   const activity = await getContributionWindow();
 
   return (
-    <div className="mt-10">
+    <div className="mx-auto mt-14 w-full max-w-3xl text-center">
       <h3 id="contributions-title" className="mono-label text-ash">
         GitHub Activity
       </h3>

@@ -37,7 +37,7 @@ All copy and data are centralised — no hardcoded personal content in component
 | File | Controls |
 | --- | --- |
 | `src/data/profile.ts` | Name, brand, email, availability, statement, social links, disciplines |
-| `src/data/projects.ts` | Four flagship projects: categories, completion, demo availability, timeline, stack, case-study sections, evaluation, milestones, deployment plan, walkthrough media, links |
+| `src/data/projects.ts` | Four homepage project cards: plain-language summaries, status, preview media and links |
 | `src/data/additional-projects.ts` | Additional work / experiments (Recipe Intelligence Chatbot, Legal Document Analysis) |
 | `src/data/skills.ts` | Five expertise categories |
 | `src/data/experience.ts` | Codolog internship timeline |
@@ -51,12 +51,14 @@ All copy and data are centralised — no hardcoded personal content in component
   only in the downloadable PDF resume.
 - Completion and demo availability are separate fields. Current state:
   NexusTrade Pro is completed with a live paper-trading demo; JobFit AI is
-  completed and deployed, but analysis requires a Supabase sign-in, so
-  anonymous end-to-end scoring was not verified; RAG Document Q&A is a
-  completed local application with public deployment pending; MarginPilot is
-  in development with a private build.
-- Flagship order is defined by the `index` field: NexusTrade Pro, JobFit AI,
-  RAG Document Q&A, MarginPilot. Next-case links follow the same order.
+  completed and its public homepage is available, but its analysis endpoint
+  returned 401 without a session at the last check; the required account flow
+  and anonymous scoring remain unverified. RAG Document Q&A is a completed
+  local application with public deployment pending; MarginPilot is in
+  development with a private build.
+- Flagship order is defined by the `index` field: RAG Document Q&A, JobFit AI,
+  NexusTrade Pro, MarginPilot. Project information stays on the homepage;
+  previous project-detail URLs redirect to the work section.
 - Links are only rendered from data. No fabricated demo or repository URLs.
 - NexusTrade Pro's walkthrough uses `public/videos/nexustrade-walkthrough.mp4`
   with `public/images/nexustrade-preview.webp` as its poster. The player is
@@ -76,8 +78,9 @@ menu, command palette, contact section and footer.
 
 Articles live in `src/content/blog/`, one `.mdx` file per post. Nothing is
 invented at build time: if the folder contains no published post, `/blog`
-shows an empty state, the homepage `LATEST WRITING` section is omitted, and
-the RSS feed is empty.
+shows an empty state, Blog is omitted from site navigation, the homepage
+`LATEST WRITING` section is omitted, the RSS feed is empty, and `/blog` is
+excluded from the sitemap.
 
 ### Publishing a post
 
@@ -121,7 +124,7 @@ the RSS feed is empty.
 | `/blog` | Editorial list of published posts |
 | `/blog/[slug]` | Article with author avatar, tags, date, reading time, optional TOC, related posts and BlogPosting JSON-LD |
 | `/feed.xml` | RSS 2.0 feed of published posts |
-| `/sitemap.xml` | Home, projects, resume, `/blog` and published article URLs |
+| `/sitemap.xml` | Home, resume and published blog URLs; `/blog` is included when posts exist |
 
 Under Cache Components, `/blog` is prerendered at build; article pages render
 on request and are cached for an hour. Because Cache Components streams a
@@ -162,7 +165,6 @@ Lighthouse, Chrome headless, mobile simulation unless noted.
 | Page | Performance | Accessibility | Best Practices | SEO |
 | --- | --- | --- | --- | --- |
 | `/` | 96 | 100 | 100 | 100 |
-| `/projects/jobfit-ai` | 100 | 100 | 100 | 100 |
 | `/resume` | 99 | 100 | 100 | 100 |
 | `/` (desktop preset) | 100 | 100 | 100 | 100 |
 
@@ -171,11 +173,10 @@ Home page metrics (mobile): LCP 0.9 s, TBT 210 ms, CLS 0.
 Additional checks executed:
 
 - `npm run build`, `npm run lint`, `npx tsc --noEmit` — clean.
-- axe-core (WCAG 2.1 A/AA + best practice) on home, all four project pages and
-  resume — 0 violations.
-- Flagship order confirmed: NexusTrade Pro, JobFit AI, RAG Document Q&A,
-  MarginPilot. Next-case chain: 01 → 02 → 03 → 04 → 01.
-- Completion and demo labels confirmed on cards and case-study sidebars.
+- axe-core (WCAG 2.1 A/AA + best practice) on home and resume — 0 violations.
+- Flagship order confirmed: RAG Document Q&A, JobFit AI, NexusTrade Pro,
+  MarginPilot on the homepage.
+- Project status labels and plain-language summaries appear on the homepage cards.
 - Work filter: 04 → 02 (Applied AI) → 01 (Product Engineering) → 01
   (Financial Technology), mouse and keyboard.
 - Command palette: Ctrl/Cmd+K opens, filters, Enter navigates, Esc closes;
@@ -184,7 +185,8 @@ Additional checks executed:
 - Copy email writes `ash911672@gmail.com` and shows "Copied to clipboard".
 - No horizontal overflow at 360/390/768/1024/1366/1440/1920 px.
 - No console errors or failed requests on audited routes.
-- All routes return HTTP 200 with correct titles, H1s and canonicals.
+- Main pages return HTTP 200 with correct titles, H1s and canonicals. Previous
+  project-detail URLs redirect to `/#work`.
 - Resume content verified in the DOM: education, degree, specialization,
   dates, Codolog internship, LinkedIn — no phone number.
 - `Anshu-Saini-Resume.pdf` served as `application/pdf` (143,663 bytes) with
@@ -193,9 +195,7 @@ Additional checks executed:
   JobFit frontend responds, API `/health` and `/docs` respond, `/api/analyze`
   returns 401 without a session; RAG repository responds 200.
 - NexusTrade walkthrough assets return 200 (`video/mp4`, `image/webp`; byte
-  ranges supported). No video request is made before playback, and playback
-  advances normally. The "Watch product walkthrough" CTA scrolls to the player.
-  The homepage loads no video or poster assets.
+  ranges supported). The recording is shown in a wide homepage card.
 
 Scores vary by run and machine; rerun Lighthouse yourself to confirm.
 
@@ -212,8 +212,8 @@ Scores vary by run and machine; rerun Lighthouse yourself to confirm.
   real HTTP 404 (verified with `curl`), render the site's "OFF THE MAP." page
   with `noindex`, and expose no draft content.
 - Status codes: `/blog`, `/feed.xml`, `/sitemap.xml`, `/resume`, the homepage,
-  all four project pages, and published articles return 200; unpublished and
-  unknown article slugs return 404 (not 200).
+  and published articles return 200; previous project-detail URLs redirect to
+  `/#work`; unpublished and unknown article slugs return 404 (not 200).
 - Empty state: `/blog` renders "No published notes yet.", the homepage
   `LATEST WRITING` section is absent, and the feed contains zero items.
 - Responsive: no horizontal overflow at 360/390/768/1440 across 10 routes,
@@ -227,8 +227,8 @@ Scores vary by run and machine; rerun Lighthouse yourself to confirm.
   head-and-shoulders crop derived from it; it renders at 68×68 (mobile) and
   84×84 (desktop) in the hero and 40×40 on articles, circular, unfiltered,
   `object-fit: cover`, never enlarged.
-- All four project routes and `/resume` still return 200; no unexpected
-  console errors or failed subresource requests.
+- `/resume` and all homepage project cards load; no unexpected console errors
+  or failed subresource requests.
 
 Fixtures were deleted after validation, so the repository ships with the
 empty state.
@@ -243,8 +243,8 @@ environment you eventually publish.
 Two project links are external deployments that were verified during the audit:
 
 - NexusTrade Pro — `https://trading-algo-oa9r.vercel.app` (live, paper trading only)
-- JobFit AI — `https://jobfit-ai-steel.vercel.app` (frontend and API online;
-  analysis requires sign-in)
+- JobFit AI — `https://jobfit-ai-steel.vercel.app` (public homepage available;
+  analysis returned 401 without a session at last check; account flow unverified)
 
 ## Deploy to Vercel
 
@@ -281,7 +281,7 @@ src/
     contributions/ GitHub activity graph
     layout/       footer, scroll progress
     navigation/   header, mobile menu, command palette
-    projects/     project card, detail layout, visual
+    projects/     project cards and visual previews
     sections/     hero, work, latest writing, about, expertise, experience, contact
     ui/           button, availability, section heading, copy email
   content/blog/   published articles and drafts (MDX)

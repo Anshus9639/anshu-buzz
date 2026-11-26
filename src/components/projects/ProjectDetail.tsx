@@ -64,10 +64,10 @@ function ArchitectureDiagram({ diagram }: { diagram: ProjectDiagram }) {
             className="grid gap-3 md:grid-cols-[6.5rem_1fr] md:gap-6"
           >
             <span className="mono-micro pt-1.5 text-ash">{row.label}</span>
-            <ol className="flex flex-wrap items-center gap-x-2 gap-y-2">
+            <ol className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-2">
               {row.steps.map((step, index) => (
-                <li key={step} className="flex items-center gap-2">
-                  <span className="border border-hairline px-2.5 py-1.5 font-mono text-[9px] uppercase leading-tight tracking-[0.1em] text-chalk/85">
+                <li key={step} className="flex min-w-0 max-w-full items-center gap-2">
+                  <span className="max-w-full border border-hairline px-2.5 py-1.5 font-mono text-[9px] uppercase leading-tight tracking-[0.1em] text-chalk/85 [overflow-wrap:anywhere]">
                     {step}
                   </span>
                   {index < row.steps.length - 1 ? (
@@ -94,7 +94,7 @@ function EvaluationBlock({ evaluation }: { evaluation: ProjectEvaluation }) {
       <p className="max-w-2xl text-sm leading-relaxed text-ash">
         {evaluation.intro}
       </p>
-      <dl className="mt-6 grid grid-cols-2 gap-px border border-hairline bg-hairline sm:grid-cols-4">
+      <dl className="mt-6 grid grid-cols-1 gap-px border border-hairline bg-hairline min-[360px]:grid-cols-2 sm:grid-cols-4">
         {evaluation.metrics.map((metric) => (
           <div key={metric.label} className="bg-ink p-4">
             <dt className="mono-micro text-ash">{metric.label}</dt>
@@ -183,14 +183,14 @@ export function ProjectDetail({ project }: { project: Project }) {
         ]
       : []),
     ...(project.milestones
-      ? [{ id: "status", label: "Status matrix", index: "" }]
+      ? [{ id: "status", label: "Milestones", index: "" }]
       : []),
     ...(project.deployment
       ? [{ id: "deployment", label: "Deployment plan", index: "" }]
       : []),
     { id: "challenges", label: "Technical challenges", index: "" },
     { id: "contribution", label: "My contribution", index: "" },
-    ...(project.screenshots.length > 0
+    ...(project.screenshots.length > 1
       ? [{ id: "screenshots", label: "Screenshots", index: "" }]
       : []),
   ];
@@ -244,7 +244,7 @@ export function ProjectDetail({ project }: { project: Project }) {
                 </span>
               </div>
 
-              <h1 className="project-title mt-7 max-w-4xl text-[clamp(3.6rem,9vw,8.4rem)] font-medium uppercase leading-[0.84] tracking-[-0.055em]">
+              <h1 className="project-title mt-7 max-w-4xl text-[clamp(2.8rem,12vw,3.6rem)] font-medium uppercase leading-[0.84] tracking-[-0.055em] sm:text-[clamp(3.6rem,9vw,8.4rem)]">
                 {project.title}
               </h1>
 
@@ -419,14 +419,33 @@ export function ProjectDetail({ project }: { project: Project }) {
         </div>
       ) : (
         <div className="container-edge py-8 lg:py-12">
-          <div className="aspect-[4/3] border border-hairline sm:aspect-[16/9]">
-            <ProjectVisual project={project} sizes="detail" />
-          </div>
-          <p className="mono-micro mt-3 text-ash">
-            {project.screenshots.length > 0
-              ? "Interface / project imagery"
-              : "Project study — visual direction"}
-          </p>
+          {project.screenshots.length === 1 ? (
+            <figure>
+              <div className="relative aspect-[4/3] overflow-hidden border border-hairline bg-card sm:aspect-[16/9]">
+                <Image
+                  src={project.screenshots[0].src}
+                  alt={project.screenshots[0].alt}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 92vw"
+                  className="object-cover object-top"
+                />
+              </div>
+              <figcaption className="mono-micro mt-3 text-ash">
+                {project.preview?.label ?? "Application screenshot"}
+              </figcaption>
+            </figure>
+          ) : (
+            <>
+              <div className="aspect-[4/3] border border-hairline sm:aspect-[16/9]">
+                <ProjectVisual project={project} sizes="detail" />
+              </div>
+              {project.preview?.label ? (
+                <p className="mono-micro mt-3 text-ash">
+                  {project.preview.label}
+                </p>
+              ) : null}
+            </>
+          )}
         </div>
       )}
 
@@ -564,7 +583,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               <DetailSection
                 id="status"
                 index={sectionIndex("status")}
-                label="Status matrix"
+                label="Milestones"
               >
                 <MilestonesBlock milestones={project.milestones} />
               </DetailSection>
@@ -659,7 +678,7 @@ export function ProjectDetail({ project }: { project: Project }) {
               </Reveal>
             </DetailSection>
 
-            {project.screenshots.length > 0 ? (
+            {project.screenshots.length > 1 ? (
               <DetailSection
                 id="screenshots"
                 index={sectionIndex("screenshots")}

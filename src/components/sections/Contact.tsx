@@ -30,6 +30,23 @@ function ContactRow({ label, value, href }: ContactRowProps) {
 }
 
 export function Contact() {
+  const contactPaths = [
+    {
+      audience: "Hiring teams",
+      title: "Discuss an opportunity",
+      detail:
+        "Entry-level applied AI, generative AI and Python development roles.",
+      subject: "Opportunity — Anshu Saini",
+    },
+    {
+      audience: "Founders",
+      title: "Build something together",
+      detail:
+        "Collaborate on applied AI, Python backends or an early product build.",
+      subject: "Founder collaboration — Anshu Saini",
+    },
+  ];
+
   return (
     <section
       id="contact"
@@ -42,11 +59,37 @@ export function Contact() {
         </h2>
 
         <div className="mt-12 grid gap-10 border-t border-hairline pt-8 sm:mt-14 lg:grid-cols-12 lg:gap-8 lg:pt-10">
-          <div className="lg:col-span-5">
+          <div className="lg:col-span-6">
             <p className="max-w-sm text-sm leading-relaxed text-ash">
               I’m looking for entry-level applied AI, generative AI and Python
-              development opportunities.
+              development opportunities, and I’m open to focused founder
+              collaborations.
             </p>
+
+            <div className="mt-7 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+              {contactPaths.map((path) => (
+                <a
+                  key={path.audience}
+                  href={`mailto:${profile.email}?subject=${encodeURIComponent(path.subject)}`}
+                  className="group min-h-24 border border-hairline p-4 transition-colors hover:border-dust hover:bg-white/[0.02] focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-4 focus-visible:outline-chalk"
+                >
+                  <span className="mono-micro text-ash">{path.audience}</span>
+                  <span className="mt-2 flex min-h-11 items-center justify-between gap-3">
+                    <span className="font-display text-lg font-medium leading-tight text-chalk">
+                      {path.title}
+                    </span>
+                    <ArrowUpRight
+                      aria-hidden="true"
+                      className="size-4 shrink-0 text-ash transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-chalk"
+                      strokeWidth={1.5}
+                    />
+                  </span>
+                  <span className="mt-1 block text-xs leading-relaxed text-ash">
+                    {path.detail}
+                  </span>
+                </a>
+              ))}
+            </div>
 
             <a
               href={profile.links.resume.href}
@@ -58,7 +101,7 @@ export function Contact() {
             </a>
           </div>
 
-          <div className="lg:col-span-6 lg:col-start-7">
+          <div className="lg:col-span-5 lg:col-start-8">
             <CopyEmail />
 
             <div className="mt-10">

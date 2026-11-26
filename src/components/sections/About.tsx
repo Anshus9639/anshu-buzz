@@ -18,7 +18,8 @@ export function About() {
             <Reveal>
               <p className="max-w-3xl font-display text-[clamp(1.65rem,3.3vw,2.9rem)] font-normal leading-[1.15] tracking-[-0.03em] text-chalk">
                 I’m Anshu, an IT graduate specializing in AI &amp; Robotics. I
-                build practical AI systems and software products.
+                build grounded AI tools, Python services and practical software
+                products, from retrieval pipelines through to full-stack apps.
               </p>
             </Reveal>
           </div>

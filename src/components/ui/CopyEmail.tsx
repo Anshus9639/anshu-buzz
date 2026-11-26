@@ -32,7 +32,7 @@ export function CopyEmail() {
         className="group inline-flex max-w-full items-center gap-4 border-b border-hairline pb-2 text-left transition-colors duration-300 hover:border-chalk"
         aria-label={`Copy email address ${profile.email}`}
       >
-        <span className="font-display text-[clamp(1.3rem,3.5vw,2.9rem)] font-medium leading-tight tracking-[-0.04em] text-chalk">
+        <span className="font-display text-[clamp(1.3rem,3.5vw,2.9rem)] font-medium leading-tight tracking-[-0.04em] text-chalk lg:text-[clamp(1.3rem,2.8vw,2.9rem)]">
           {profile.email}
         </span>
         <span

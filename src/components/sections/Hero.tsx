@@ -46,7 +46,7 @@ export function Hero() {
                   <div>
                     <p className="mono-micro text-ash">{profile.name}</p>
                     <p className="mt-1 max-w-[36ch] text-base leading-relaxed text-ash md:text-lg">
-                      Applied AI. Software. Products.
+                      Building practical AI with Python.
                     </p>
                   </div>
                 </div>

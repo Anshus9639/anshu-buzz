@@ -17,7 +17,7 @@ import {
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { navItems } from "@/lib/navigation";
+import type { NavItem } from "@/lib/navigation";
 import { projects } from "@/data/projects";
 import { profile } from "@/data/profile";
 import { cn, copyToClipboard, scrollToSection } from "@/lib/utils";
@@ -38,11 +38,16 @@ type CommandItem = {
 type CommandPaletteProps = {
   open: boolean;
   onClose: () => void;
+  navItems: NavItem[];
 };
 
 const groupOrder: CommandGroup[] = ["Navigate", "Projects", "Connect"];
 
-export function CommandPalette({ open, onClose }: CommandPaletteProps) {
+export function CommandPalette({
+  open,
+  onClose,
+  navItems,
+}: CommandPaletteProps) {
   const panelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
@@ -91,12 +96,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       id: `project-${project.slug}`,
       label: project.title,
       group: "Projects" as const,
-      hint: `Case ${project.index}`,
+      hint: "Homepage",
       icon: Layers,
-      keywords: `${project.title} ${project.category} ${project.technologies.join(" ")} project case study`,
+      keywords: `${project.title} ${project.category} ${project.technologies.join(" ")} project`,
       run: () => {
-        onClose();
-        router.push(`/projects/${project.slug}`);
+        goToSection(`project-${project.slug}`);
       },
     })),
     {

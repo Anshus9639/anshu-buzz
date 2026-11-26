@@ -542,6 +542,10 @@
     border-spacing: 3px;
   }
 
+  .contribution-timeline {
+    border-spacing: 5px;
+  }
+
   .contribution-grid th {
     padding: 0;
     color: var(--color-ash);
@@ -576,6 +580,11 @@
     height: 11px;
     padding: 0;
     border-radius: 2px;
+  }
+
+  .contribution-timeline .contribution-cell {
+    width: 17px;
+    height: 17px;
   }
 
   .contribution-cell {
@@ -638,6 +647,15 @@
     .contribution-empty {
       width: 10px;
       height: 10px;
+    }
+
+    .contribution-timeline {
+      border-spacing: 4px;
+    }
+
+    .contribution-timeline .contribution-cell {
+      width: 14px;
+      height: 14px;
     }
   }
 

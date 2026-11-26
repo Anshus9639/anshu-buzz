@@ -39,12 +39,12 @@ export type ProjectLivePreview = {
   url: string;
   poster: string;
   label: string;
-  note: string;
+  note?: string;
 };
 
 export type ProjectPreviewMeta = {
   label: string;
-  note: string;
+  note?: string;
 };
 
 export type ProjectEvaluation = {
@@ -116,7 +116,7 @@ const projectData: Project[] = [
   {
     id: "rag-document-qa",
     slug: "rag-doc-qa",
-    index: "03",
+    index: "01",
     title: "RAG Document Q&A",
     category: "Applied AI",
     completion: {
@@ -125,7 +125,7 @@ const projectData: Project[] = [
         "The local application is complete end to end: ingestion, retrieval, citations, safeguards and evaluation.",
     },
     demo: {
-      label: "Local build · demo pending",
+      label: "Runs locally",
       tone: "pending",
       detail:
         "Runs fully locally with Ollama. No public deployment has been tested yet.",
@@ -133,7 +133,7 @@ const projectData: Project[] = [
     timeline: "Sep 2026 – Oct 2026",
     role: "Independent project — retrieval & LLM engineering",
     shortDescription:
-      "A local question-answering system that retrieves evidence before answering, cites the file, page and section, and refuses when the sources do not contain the answer.",
+      "Ask questions about PDFs and text files, then see the page or section behind each answer.",
     fullDescription:
       "RAG Document Q&A is a multi-document retrieval system built around one idea: an answer is only worth showing if it can be traced back to a source. PDFs and text files are chunked by heading, embedded with Sentence Transformers and stored in a persistent FAISS index. Each question is routed through deterministic retrievers before semantic search, the retrieved excerpts are numbered, and a local Ollama model answers from those excerpts alone. Citations are assembled from stored metadata, numeric claims are checked against the retrieved text, and the system refuses rather than guesses when evidence is missing.",
     technologies: [
@@ -301,8 +301,6 @@ const projectData: Project[] = [
     },
     preview: {
       label: "Architecture study",
-      note:
-        "An architecture study of the retrieval and citation pipeline. The application runs locally; there is no public interface to preview.",
     },
     links: {
       github: "https://github.com/Anshus9639/rag-doc-qa-bot",
@@ -315,7 +313,7 @@ const projectData: Project[] = [
   {
     id: "nexustrade-pro",
     slug: "nexustrade-pro",
-    index: "01",
+    index: "03",
     title: "NexusTrade Pro",
     category: "Financial Technology",
     completion: {
@@ -324,7 +322,7 @@ const projectData: Project[] = [
         "The full-stack build is finished and running in paper-trading mode.",
     },
     demo: {
-      label: "Live · paper trading",
+      label: "Live demo",
       tone: "live",
       detail:
         "Deployed demo running on simulated balances. No real orders or brokerage credentials are used.",
@@ -332,7 +330,7 @@ const projectData: Project[] = [
     timeline: "Apr 2026 – Nov 2026",
     role: "Full-stack engineer — frontend, backend and realtime market data",
     shortDescription:
-      "A full-stack trading simulator with live market data, market and limit orders, an escrow-based order matcher and an AI copilot that proposes trades instead of executing them.",
+      "Practice trading with live prices, simulated money, and an AI helper for ideas you can review before placing.",
     fullDescription:
       "NexusTrade Pro simulates the mechanics of a trading platform without touching real money. Binance's public WebSocket feed drives prices, while an Express and MongoDB backend handles authentication, escrowed balances and a matcher that checks resting limit orders every three seconds. The React client renders live charts with Lightweight Charts and receives updates over Socket.IO. A Gemini-powered copilot turns a natural-language request into a structured trade proposal that the user must review and submit — it never places an order on its own.",
     technologies: [
@@ -473,9 +471,9 @@ const projectData: Project[] = [
       github: "https://github.com/Anshus9639/TRADING-ALGO",
       sourceLabel: "View source code",
       live: "https://trading-algo-oa9r.vercel.app",
-      liveLabel: "Open live application",
+      liveLabel: "Try demo",
       liveNote:
-        "Simulated balances — no real orders or brokerage credentials.",
+        "Practice trades only—no real money is involved.",
     },
     featured: true,
     caseStudyLabel: "Open case study",
@@ -493,17 +491,17 @@ const projectData: Project[] = [
         "The frontend, analysis API and weighted scoring flow are implemented.",
     },
     demo: {
-      label: "Deployed · public homepage",
+      label: "Homepage live",
       tone: "pending",
       detail:
-        "Frontend and API are online. Analysis requires a Supabase account, so anonymous end-to-end scoring was not verified.",
+        "The public homepage is available. The analysis endpoint returned 401 without a session at its last check, so anonymous scoring was not verified and the required account flow is unconfirmed.",
     },
     timeline: "2026",
     role: "Independent project — NLP and full-stack engineering",
     shortDescription:
-      "A resume-to-job-description matcher that combines semantic similarity, explicit skill overlap and an ATS-style readiness check into one weighted score.",
+      "Compare your resume with a job post to find matching skills, spot gaps, and see what to improve.",
     fullDescription:
-      "JobFit AI compares a PDF resume against a job description and explains the result instead of returning a single opaque number. PyMuPDF extracts resume text, Sentence Transformers measure semantic similarity, a skill matcher identifies explicit overlaps and gaps, and an ATS-style heuristic checks structure and readability. The three signals combine into a weighted score. The project uses no database, authentication or paid APIs — documents are processed in memory for the duration of a request.",
+      "JobFit AI compares a PDF resume against a job description and explains the result instead of returning a single opaque number. PyMuPDF extracts resume text, Sentence Transformers measure semantic similarity, a skill matcher identifies explicit overlaps and gaps, and an ATS-style heuristic checks structure and readability. The three signals combine into a weighted score. The source implementation is designed to process documents in memory without storing resumes. The public homepage is available, but the analysis endpoint returned 401 without a session at its last check; the deployed account requirement and anonymous scoring flow remain unverified.",
     technologies: [
       "Python",
       "FastAPI",
@@ -530,8 +528,9 @@ const projectData: Project[] = [
       "Explicit skill matching with visible gaps",
       "ATS-style structural heuristic — not an official ATS score",
       "Weighted score: 40% semantic, 40% skills, 20% readiness",
-      "Stateless processing with no database or stored resumes",
-      "No authentication and no paid model APIs",
+      "In-memory document processing with no resume storage in the source implementation",
+      "The deployed analysis endpoint returned 401 without a session at its last check",
+      "No paid model APIs",
     ],
     architecture: [
       {
@@ -562,9 +561,9 @@ const projectData: Project[] = [
           "Resumes are capped at 5 MB and job descriptions at 20,000 characters, which keeps extraction and embedding predictable on a small deployment.",
       },
       {
-        title: "Stateless by design",
+        title: "Privacy and deployed access",
         detail:
-          "No database and no authentication means no resume storage. Each request is processed and discarded.",
+          "The source implementation processes documents in memory without resume storage. The deployed analysis endpoint returned 401 without a session during its last check, so its required account flow still needs verification.",
       },
     ],
     card: {
@@ -580,17 +579,17 @@ const projectData: Project[] = [
         "The deployment was checked directly on 21 November 2026. No account was created.",
       metrics: [
         { label: "Frontend", value: "200 OK" },
-        { label: "Analysis API", value: "Online · auth" },
+        { label: "Analysis API", value: "401 · no session" },
         { label: "Scoring weights", value: "40 / 40 / 20" },
       ],
       notes: [
         "The Next.js frontend responded successfully.",
         "The FastAPI service responded on /health, /docs and /openapi.json.",
-        "/api/analyze returned 401 without a session; analysis requires sign-in, so the scoring flow was not executed anonymously.",
+        "/api/analyze returned 401 without a session; anonymous scoring was not verified, and the required account/session flow is unconfirmed.",
         "The ATS component is a heuristic readiness check, not an official applicant tracking system score.",
       ],
       caveat:
-        "End-to-end scoring was not verified anonymously because the analysis endpoint requires authentication.",
+        "The deployed analysis endpoint returned 401 without a session. Anonymous scoring was not verified, and the required account/session flow is unconfirmed.",
     },
     diagram: {
       title: "Analysis flow",
@@ -619,16 +618,19 @@ const projectData: Project[] = [
       url: "https://jobfit-ai-steel.vercel.app",
       poster: "/images/jobfit-homepage.webp",
       label: "Live homepage preview",
-      note: "Resume analysis requires sign-in.",
     },
     links: {
       live: "https://jobfit-ai-steel.vercel.app",
-      liveLabel: "Open live frontend",
-      liveNote: "Resume analysis requires sign-in.",
+      liveLabel: "Visit homepage",
     },
     featured: true,
     caseStudyLabel: "Read case study",
-    screenshots: [],
+    screenshots: [
+      {
+        src: "/images/jobfit-homepage.webp",
+        alt: "JobFit AI homepage with a resume upload and job-description form.",
+      },
+    ],
   },
   {
     id: "marginpilot",
@@ -642,15 +644,14 @@ const projectData: Project[] = [
         "Milestones M0–M3 are implemented; the reconciliation engine is the next milestone.",
     },
     demo: {
-      label: "Private build",
+      label: "In development",
       tone: "development",
-      detail:
-        "Private repository. There is no public demo or published source.",
+      detail: "Private project currently in development.",
     },
     timeline: "2026 — present",
     role: "Founder & engineer — product, architecture and implementation",
     shortDescription:
-      "A marketplace financial-intelligence and reconciliation platform in active development, built around a secured PostgreSQL core and an auditable API.",
+      "A tool in development to help online sellers track marketplace fees, understand payouts, and see how they affect profit.",
     fullDescription:
       "MarginPilot is a product I am building for marketplace sellers who need to understand fees, payouts and discrepancies across sources. The work so far is the foundation: a Next.js workspace behind nginx, a FastAPI service layer and a PostgreSQL core with row-level security, a non-owner runtime role and append-only audit logging. Financial values use Decimal end to end. Reconciliation logic, marketplace integrations and commercial features are explicitly staged rather than presented as finished.",
     technologies: [
@@ -785,13 +786,8 @@ const projectData: Project[] = [
     ],
     preview: {
       label: "Designed preview · in development",
-      note:
-        "An interface study based on the documented MarginPilot implementation. It is not a live build, and the reconciliation engine is still in development.",
     },
-    links: {
-      sourceNote:
-        "Private repository — the source is not published and there is no public build to try.",
-    },
+    links: {},
     featured: true,
     caseStudyLabel: "Explore product",
     screenshots: [],

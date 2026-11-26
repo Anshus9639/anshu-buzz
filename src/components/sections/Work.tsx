@@ -11,15 +11,15 @@ const filterId = (category: string) =>
 function layoutClasses(index: number) {
   if (index === 0) return "lg:col-span-7";
   if (index === 1) return "lg:col-span-5";
-  if (index === 2) return "lg:col-span-5";
-  return "lg:col-span-7";
+  if (index === 2) return "lg:col-span-7";
+  return "lg:col-span-5";
 }
 
 function aspectClasses(index: number) {
   if (index === 0) return "aspect-video";
   if (index === 1) return "aspect-[4/3] lg:aspect-[4/5]";
-  if (index === 2) return "aspect-[4/3] lg:aspect-[4/5]";
-  return "aspect-[4/3]";
+  if (index === 2) return "aspect-video";
+  return "aspect-[4/3] lg:aspect-[4/5]";
 }
 
 export function Work() {
@@ -68,6 +68,7 @@ export function Work() {
           {projects.map((project, index) => (
             <article
               key={project.slug}
+              id={`project-${project.slug}`}
               data-category={project.category}
               data-index={index}
               className={cn(
@@ -79,7 +80,6 @@ export function Work() {
               <ProjectCard
                 project={project}
                 aspectClass={aspectClasses(index)}
-                projectIndex={index}
               />
             </article>
           ))}

@@ -54,8 +54,8 @@ export const experience: ExperienceEntry[] = [
       "Wrote 18 pytest tests with mocked LLM responses and GitHub Actions CI.",
     ],
     link: {
-      label: "Open case study",
-      href: "/projects/rag-doc-qa",
+      label: "View project on homepage",
+      href: "/#project-rag-doc-qa",
     },
   },
   {

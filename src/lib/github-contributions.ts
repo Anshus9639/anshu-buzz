@@ -14,7 +14,7 @@ export type ContributionWindow = {
   days: ContributionDay[];
 };
 
-const WINDOW_DAYS = 90;
+const WINDOW_DAYS = 30;
 const USERNAME =
   profile.links.github.handle?.replace(/^@/, "") ?? "Anshus9639";
 const REQUEST_HEADERS = {
